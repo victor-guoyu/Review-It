@@ -1,4 +1,4 @@
-package ir;
+package ir.server;
 
 public class IRSystem {
     
