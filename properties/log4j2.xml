@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="console-log" target="SYSTEM_OUT">
+      <PatternLayout pattern="[%-5level] %d{HH:mm:ss} %c{1} - %msg%n"/>
+    </Console>
+    <File name="file-log" fileName="logs/TwitterIR.log" append="false">
+      <PatternLayout pattern="%m%n"/>
+      	<Filters>
+            <!-- Now deny warn, error and fatal messages -->
+            <ThresholdFilter level="warn"  onMatch="DENY"   onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="error" onMatch="DENY"   onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="fatal" onMatch="DENY"   onMismatch="NEUTRAL"/>
+			<ThresholdFilter level="info"  onMatch="DENY"   onMismatch="NEUTRAL"/>
+            <!-- This filter accepts info, warn, error, fatal and denies debug/trace -->
+            <ThresholdFilter level="result"  onMatch="ACCEPT" onMismatch="DENY"/>
+        </Filters>
+    </File>
+  </Appenders>
+  <Loggers>
+    <logger name="ir" level="ALL">
+        <AppenderRef ref="file-log" level="TRACE"/>
+        <AppenderRef ref="console-log" level="INFO"/>
+    </logger>
+     <Root level="error">
+     	<AppenderRef ref="console-log" level="ERROR"/>
+     </Root>
+  </Loggers>
+</Configuration>
