@@ -11,10 +11,9 @@ public class Configuration {
     public static final String LOGGER_CONFIG          = "logger.config";
     public static final String LOGGER_SYSTEM_PROPERTY = "log4j.configurationFile";
 
-    public static final String EBAY_DEV_ID            = "ebayDevId";
-    public static final String EBAY_APP_ID            = "ebayAppId";
-    public static final String EBAY_CERTIFICATE       = "ebayCertificate";
-    public static final String EBAY_TOKEN             = "ebayCertificate";
+    public static final String AWS_ACCESS_ID          = "awsAccessKeyId";
+    public static final String AWS_SECRET_KEY         = "awsSecretKey";
+    public static final String AWS_ENDPOINT           = "awsEndpoint";
 
     private Properties         properties;
 
@@ -26,26 +25,19 @@ public class Configuration {
         }
     }
 
-    public String getEbayDevId() {
-        return properties.getProperty(EBAY_DEV_ID);
+    public String getAWSAccessId() {
+        return properties.getProperty(AWS_ACCESS_ID);
     }
-    
-    public String getEbayAppId() {
-        return properties.getProperty(EBAY_APP_ID);
+
+    public String getAWSSecreKey() {
+        return properties.getProperty(AWS_SECRET_KEY);
     }
 
     /**
-     * @return the ebayCertificate
+     * @return the AWSEnpoint
      */
-    public String getEbayCertificate() {
-        return properties.getProperty(EBAY_CERTIFICATE);
-    }
-
-    /**
-     * @return the ebayToken
-     */
-    public String getEbayToken() {
-        return properties.getProperty(EBAY_TOKEN);
+    public String getAWSEndpoint() {
+        return properties.getProperty(AWS_ENDPOINT);
     }
 
     /**
@@ -67,7 +59,7 @@ public class Configuration {
         return properties.getProperty(LOGGER_CONFIG);
     }
 
-    public Configuration getInstance() {
+    public static Configuration getInstance() {
         return Singleton.INSTANCE;
     }
 

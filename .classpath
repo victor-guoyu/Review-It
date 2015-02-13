@@ -13,5 +13,15 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/log4j-core-2.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/commons-codec-1.10.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/commons-codec-1.10-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/jsoup-1.8.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/jsoup-1.8.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

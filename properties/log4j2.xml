@@ -4,7 +4,7 @@
     <Console name="console-log" target="SYSTEM_OUT">
       <PatternLayout pattern="[%-5level] %d{HH:mm:ss} %c{1} - %msg%n"/>
     </Console>
-    <File name="file-log" fileName="logs/TwitterIR.log" append="false">
+    <File name="file-log" fileName="logs/server.log" append="false">
       <PatternLayout pattern="%m%n"/>
       	<Filters>
             <!-- Now deny warn, error and fatal messages -->
