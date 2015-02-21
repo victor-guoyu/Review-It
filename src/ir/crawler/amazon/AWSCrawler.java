@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
-//import org.w3c.dom.Document;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -71,7 +71,7 @@ public class AWSCrawler {
         params.put("Service", "AWSECommerceService");
         params.put("Operation", "ItemSearch");
         params.put("SearchIndex", "All");
-        params.put("Keywords", "macbook");
+        params.put("Keywords", "fdgsesgegs");
         params.put("IncludeReviewsSummary", "true");
         params.put("ItemPage", "1");
 
@@ -121,7 +121,7 @@ public class AWSCrawler {
 
                 String msg = new StringBuilder()
                 .append(title)
-                .append("\n")
+                .append(" ")
                 .append(CustomerReviewURL).toString();
 
                 mainLog.info(msg);
@@ -134,12 +134,8 @@ public class AWSCrawler {
         }
     }
 
-    private void retriveReviews(org.jsoup.nodes.Document doc) {
-        Elements reviewList = doc.select("div.reviewText");
-        for (int i = 0; i < reviewList.size(); i++) {
-            String msg = reviewList.get(i).html();
-            mainLog.info(msg);
-        }
+    private void RetriveReviews() {
+
     }
 
     /**
@@ -172,6 +168,10 @@ public class AWSCrawler {
         // for loop to retrieve all the customer reviews.
 
         // retrive review
-        retriveReviews(doc);
+        Elements reviewList = doc.select("div.reviewText");
+        for (int i = 0; i < reviewList.size(); i++) {
+            String msg = reviewList.get(i).html();
+            mainLog.info(msg);
+        }
     }
 }

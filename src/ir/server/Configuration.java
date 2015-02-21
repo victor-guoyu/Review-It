@@ -15,6 +15,8 @@ public class Configuration {
     public static final String AWS_SECRET_KEY         = "awsSecretKey";
     public static final String AWS_ENDPOINT           = "awsEndpoint";
 
+    public static final String YOUTUBE_API_KEY        = "youtubeAPIKey";
+
     private Properties         properties;
 
     private Configuration() {
@@ -40,6 +42,10 @@ public class Configuration {
         return properties.getProperty(AWS_ENDPOINT);
     }
 
+    public String getYoutubeApiKey(){
+        return properties.getProperty(YOUTUBE_API_KEY);
+    }
+    
     /**
      * loading all app properties
      */
