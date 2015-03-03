@@ -20,7 +20,7 @@ import ir.server.*;
 import static ir.crawler.amazon.AWSRequestFileds.*;
 
 /**
- * 
+ *
  * @author Zhiting Lin Amazon customer review crawler
  *
  *         http://docs.aws.amazon.com/AWSECommerceService/latest/DG/ItemSearch.
@@ -32,10 +32,6 @@ public class AWSCrawler extends Crawler {
     private SignedRequestsHelper helper;
     private String[]             pageLinksToVisit;
     private HashMap<String, String> titleToReviews;
-    @Override
-    public void run() {
-        // TODO
-    }
 
     public void init() throws Exception {
         logger = LogManager.getLogger(AWSCrawler.class);
@@ -60,7 +56,7 @@ public class AWSCrawler extends Crawler {
      */
     private String [] createURLs() {
         String[] linksToVisit = new String [10];
-        
+
         HashMap<String, String> params = Maps.newHashMap();
         params.put(PARAM_KEY_ASSOCIATETAG, "com0fd-20");
         params.put(PARAM_KEY_SERVICE, PARAM_VALUE_SERVICE);
@@ -68,7 +64,7 @@ public class AWSCrawler extends Crawler {
         params.put(PARAM_KEY_SEARCHINDEX, "All");
         params.put(PARAM_KEY_KEYWORDS, "macbook");
         params.put(PARAM_KEY_INCLUDEREVIEWS, PARAM_VALUE_INCLUDEREVIEWS);
-        
+
         for(int i=0; i< linksToVisit.length; i++) {
             params.put(PARAM_KEY_ITEMPAGE, String.valueOf(i+1));
             linksToVisit[i] = helper.sign(params);
@@ -110,7 +106,7 @@ public class AWSCrawler extends Crawler {
     }
 
     /**
-     * 
+     *
      * @param ReviewURL
      *            : The URL that need to be extracted
      * @throws Exception

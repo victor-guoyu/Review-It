@@ -5,11 +5,17 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.util.Strings;
 
+import com.google.common.base.Optional;
+import com.google.common.primitives.Ints;
+
 public class Configuration {
 
     public static final String CONFIG_FILE            = "properties/app.properties";
     public static final String LOGGER_CONFIG          = "logger.config";
     public static final String LOGGER_SYSTEM_PROPERTY = "log4j.configurationFile";
+
+    public static final String SERVER_PORT            = "server.port";
+    public static final String PUBLIC_DIR             = "public.dir";
 
     public static final String AWS_ACCESS_ID          = "awsAccessKeyId";
     public static final String AWS_SECRET_KEY         = "awsSecretKey";
@@ -23,6 +29,19 @@ public class Configuration {
         if (Strings.isNotEmpty(loggerConfig)) {
             System.setProperty(LOGGER_SYSTEM_PROPERTY, loggerConfig);
         }
+    }
+
+    public Optional<Integer> getServerPort() {
+        Integer port = Ints.tryParse(properties.getProperty(SERVER_PORT));
+        if (port == null) {
+            return Optional.absent();
+        } else {
+            return Optional.of(port);
+        }
+    }
+
+    public String getPublicDir() {
+        return properties.getProperty(PUBLIC_DIR);
     }
 
     public String getAWSAccessId() {
