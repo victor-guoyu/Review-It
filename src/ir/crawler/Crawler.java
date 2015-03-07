@@ -1,5 +1,5 @@
 package ir.crawler;
 
-public  class Crawler{
-    //TODO
+public  interface Crawler{
+    public void process();
 }

@@ -33,5 +33,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jetty-all-9.2.8.v20150217-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/snakeyaml-1.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

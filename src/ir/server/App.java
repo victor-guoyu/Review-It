@@ -5,26 +5,31 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 
+import ir.config.Configuration;
 import ir.crawler.amazon.AWSCrawler;
 
 public class App {
-    private static final int DEFAULT_PORT = 8080;
-    private Server server;
+    private final Server server;
     private Logger mainLog;
     private Configuration config;
 
     private App() {
+
         config = Configuration.getInstance();
+
         // If port number is not found in the config file, using the default
         // port instead
-        server = new Server(config.getServerPort().or(DEFAULT_PORT));
+        server = new Server(config.getServerPort()
+                            .or(ServerConstants.DEFAULT_PORT));
         HandlerCollection handler = new HandlerCollection();
         handler.addHandler(handler);
+
         //for each servlet:
         // initialize the servlet using static method
         //Create a handler with the context
@@ -38,10 +43,14 @@ public class App {
     }
 
     /**
-     * Start server log
+     * Setup log4j & Start server log
      */
     private void startServerLog() {
-
+        String loggerConfig = ServerConstants.LOGGER_CONFIG_FILE;
+        if (Strings.isNotEmpty(loggerConfig)) {
+            System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
+                    loggerConfig);
+        }
     }
 
     /**

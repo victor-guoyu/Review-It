@@ -15,8 +15,8 @@ import org.jsoup.select.Elements;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 
+import ir.config.Configuration;
 import ir.crawler.Crawler;
-import ir.server.*;
 import static ir.crawler.amazon.AWSRequestFileds.*;
 
 /**
@@ -27,19 +27,25 @@ import static ir.crawler.amazon.AWSRequestFileds.*;
  *         html
  */
 
-public class AWSCrawler extends Crawler {
+public class AWSCrawler implements Crawler {
     private Logger               logger;
     private SignedRequestsHelper helper;
     private String[]             pageLinksToVisit;
     private HashMap<String, String> titleToReviews;
 
+    @Override
+    public void process() {
+        // TODO Auto-generated method stub
+
+    }
+
     public void init() throws Exception {
         logger = LogManager.getLogger(AWSCrawler.class);
         helper = SignedRequestsHelper
                 .getInstance(
-                        Configuration.getInstance().getAWSEndpoint(),
-                        Configuration.getInstance().getAWSAccessId(),
-                        Configuration.getInstance().getAWSSecreKey());
+                        Configuration.getInstance().getAwsEndPoint(),
+                        Configuration.getInstance().getAwsAccessKeyId(),
+                        Configuration.getInstance().getAwsSecretKey());
         pageLinksToVisit = createURLs();
         for (String link : pageLinksToVisit) {
             titleToReviews = retrieveTitleToReviews(link);
