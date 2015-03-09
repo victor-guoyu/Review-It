@@ -1,6 +1,7 @@
 package ir.server;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -11,11 +12,17 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 
-import ir.config.Configuration;
-import ir.crawler.amazon.AWSCrawler;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
+import ir.config.Configuration;
+import ir.crawler.Crawler;
+
+//http://jyaml.sourceforge.net/tutorial.html
 public class App {
     private final Server server;
+    private List<Crawler> crawlers;
     private Logger mainLog;
     private Configuration config;
 
@@ -39,7 +46,12 @@ public class App {
     public void start() {
         Version.upSince = new Date();
         startServerLog();
-        startCrawlers();
+        crawlers = getCrawlers();
+        crawlers.stream()
+        .forEach(
+               (crawler) -> {
+            crawler.fetch();
+        });
     }
 
     /**
@@ -56,14 +68,23 @@ public class App {
     /**
      * Load and initialize all the crawlers
      */
-    private void startCrawlers() {
-        AWSCrawler amazonCrawler = new AWSCrawler();
-        try {
-            amazonCrawler.init();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    private List<Crawler> getCrawlers() {
+        Iterable <Crawler> crawlers = Iterables.transform(config.getCrawlers(),
+                new Function<String, Crawler>() {
+
+            @Override
+            public Crawler apply(String className) {
+                Crawler crawler = null;
+                try {
+                        crawler = (Crawler) Class.forName(className).newInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                return crawler;
+            }
+        });
+
+        return ImmutableList.copyOf(crawlers);
     }
 
     private ThreadPool getThreadPool(String name, int maxThreads,

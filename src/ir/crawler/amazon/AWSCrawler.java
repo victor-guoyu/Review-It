@@ -34,7 +34,7 @@ public class AWSCrawler implements Crawler {
     private HashMap<String, String> titleToReviews;
 
     @Override
-    public void process() {
+    public void fetch() {
         // TODO Auto-generated method stub
 
     }

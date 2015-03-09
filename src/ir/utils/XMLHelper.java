@@ -1,4 +1,4 @@
-package ir.crawler.utils;
+package ir.utils;
 
 import org.jsoup.select.Elements;
 

@@ -16,6 +16,7 @@ public final class Configuration {
     private int                 SERVER_PORT;
     private String              PUBLIC_DIR;
     private List<ServletConfig> SERVLETS;
+    private List<String>        CRAWLERS;
 
     // AWS configuration
     private String              AWS_ACCESS_KEY_ID;
@@ -48,6 +49,10 @@ public final class Configuration {
 
     public String getPubDir() {
         return PUBLIC_DIR;
+    }
+
+    public List<String> getCrawlers() {
+        return CRAWLERS;
     }
 
     public List<ServletConfig> getServlets() {
