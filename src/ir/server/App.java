@@ -17,41 +17,32 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import ir.config.Configuration;
+import ir.config.ServletConfig;
 import ir.crawler.Crawler;
+import ir.crawler.TrainingData;
+import ir.servlets.AppServlet;
 
 //http://jyaml.sourceforge.net/tutorial.html
 public class App {
-    private final Server server;
+    private final Server  server;
     private List<Crawler> crawlers;
-    private Logger mainLog;
+    private Logger        mainLog;
     private Configuration config;
 
     private App() {
-
         config = Configuration.getInstance();
-
-        // If port number is not found in the config file, using the default
-        // port instead
         server = new Server(config.getServerPort()
-                            .or(ServerConstants.DEFAULT_PORT));
-        HandlerCollection handler = new HandlerCollection();
-        handler.addHandler(handler);
-
-        //for each servlet:
-        // initialize the servlet using static method
-        //Create a handler with the context
-        //Create an optional connector with an optional threadpool
+                .or(ServerConstants.DEFAULT_PORT));
     }
 
     public void start() {
         Version.upSince = new Date();
         startServerLog();
-        crawlers = getCrawlers();
-        crawlers.stream()
-        .forEach(
-               (crawler) -> {
-            crawler.fetch();
-        });
+        crawlers = initializeCrawlers();
+        // Build the initial data set before the user can retrieve from the
+        // server
+        retriveData(TrainingData.INSTANCE.getTraingQueries());
+        servletInit();
     }
 
     /**
@@ -63,28 +54,68 @@ public class App {
             System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
                     loggerConfig);
         }
+        //TODO
     }
 
     /**
      * Load and initialize all the crawlers
      */
-    private List<Crawler> getCrawlers() {
-        Iterable <Crawler> crawlers = Iterables.transform(config.getCrawlers(),
+    private List<Crawler> initializeCrawlers() {
+        Iterable<Crawler> crawlers = Iterables.transform(config.getCrawlers(),
                 new Function<String, Crawler>() {
 
-            @Override
-            public Crawler apply(String className) {
-                Crawler crawler = null;
-                try {
-                        crawler = (Crawler) Class.forName(className).newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    @Override
+                    public Crawler apply(String className) {
+                        Crawler crawler = null;
+                        try {
+                            crawler = (Crawler) Class.forName(className)
+                                    .newInstance();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return crawler;
                     }
-                return crawler;
-            }
-        });
+                });
 
         return ImmutableList.copyOf(crawlers);
+    }
+
+    /**
+     * Add all the servlets to the server
+     */
+    //TODO
+    // for each servlet:
+    // initialize the servlet using static method
+    // Create a handler with the context
+    // Create an optional connector with an optional threadpool
+    private void servletInit() {
+        HandlerCollection handlers = new HandlerCollection();
+        Iterable<AppServlet> servlets = Iterables.transform(Configuration.getInstance().getServlets(),
+                new Function<ServletConfig, AppServlet>() {
+
+                    @Override
+                    public AppServlet apply(ServletConfig arg0) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+        });
+        servlets.forEach((servlet) -> {
+            servlet.init();
+        });
+        handlers.addHandler(null);
+        server.setHandler(handlers);
+    }
+
+    /**
+     * @param List
+     *            of product name queries Lucene will index all the retrieved
+     *            data afterwards
+     */
+    public void retriveData(List<String> queries) {
+        crawlers.stream()
+        .forEach((crawler) -> {
+            crawler.fetch(queries);
+        });
     }
 
     private ThreadPool getThreadPool(String name, int maxThreads,

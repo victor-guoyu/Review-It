@@ -3,6 +3,7 @@ package ir.crawler.amazon;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,7 @@ public class AWSCrawler implements Crawler {
     private HashMap<String, String> titleToReviews;
 
     @Override
-    public void fetch() {
+    public void fetch(List<String> queries) {
         // TODO Auto-generated method stub
 
     }

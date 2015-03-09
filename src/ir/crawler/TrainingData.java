@@ -47,7 +47,7 @@ public enum TrainingData {
                 });
     }
 
-    public List<String> getTraingQuery() {
+    public List<String> getTraingQueries() {
         return traingQuery;
     }
 }
