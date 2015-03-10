@@ -23,6 +23,8 @@ public final class Configuration {
     private String              AWS_SECRET_KEY;
     private String              AWS_ENDPOINT;
 
+    // YouTuBe configuration
+    private String              YOUTUBE_API_KEY;
     private Configuration() {}
 
     private static Configuration getConfiguration() {
@@ -67,6 +69,10 @@ public final class Configuration {
 
     public String getAwsSecretKey() {
         return AWS_SECRET_KEY;
+    }
+
+    public String getYouTuBeApiKey() {
+        return YOUTUBE_API_KEY;
     }
 
     public static Configuration getInstance() {

@@ -7,6 +7,9 @@ AWS_ACCESS_KEY_ID: AKIAI4G5OARPTHUJYJMA
 AWS_SECRET_KEY: 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
 AWS_ENDPOINT: webservices.amazon.com
 
+# YouTuBe params
+YOUTUBE_API_KEY: AIzaSyBQXg30E9SWTTl8xFjFJoayFYDJyjc_JGk
+
 # Crawlers
 CRAWLERS:
   - ir.crawler.amazon.AWSCrawler

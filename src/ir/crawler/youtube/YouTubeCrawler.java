@@ -9,7 +9,7 @@ import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
-import ir.server.Configuration;
+import ir.config.Configuration;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -32,6 +32,7 @@ public class YouTubeCrawler {
         logger = LogManager.getLogger(YouTubeCrawler.class);
         youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(),
                 new HttpRequestInitializer() {
+                    @Override
                     public void initialize(HttpRequest request)
                             throws IOException {
                     }
@@ -52,7 +53,7 @@ public class YouTubeCrawler {
     private YouTube.Search.List searchConfig(String keyword) throws IOException {
         YouTube.Search.List search = youtube.search().list("id,snippet");
 
-        String apiKey = Configuration.getInstance().getYoutubeApiKey();
+        String apiKey = Configuration.getInstance().getYouTuBeApiKey();
         search.setKey(apiKey);
         search.setQ(keyword + " review");
 
