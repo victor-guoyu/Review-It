@@ -52,7 +52,6 @@ public class YouTubeCrawler {
 
     private YouTube.Search.List searchConfig(String keyword) throws IOException {
         YouTube.Search.List search = youtube.search().list("id,snippet");
-
         String apiKey = Configuration.getInstance().getYouTuBeApiKey();
         search.setKey(apiKey);
         search.setQ(keyword + " review");
