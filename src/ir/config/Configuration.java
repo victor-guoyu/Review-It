@@ -23,8 +23,7 @@ public final class Configuration {
     private String              AWS_SECRET_KEY;
     private String              AWS_ENDPOINT;
 
-    private Configuration() {
-    }
+    private Configuration() {}
 
     private static Configuration getConfiguration() {
         Configuration config = null;

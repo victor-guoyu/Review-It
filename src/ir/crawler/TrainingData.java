@@ -42,7 +42,7 @@ public enum TrainingData {
                         if (Strings.isNotBlank(currentLine)) {
                             tdl.add(currentLine);
                         }
-                        return true;
+                        return Boolean.TRUE;
                     }
                 });
     }

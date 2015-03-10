@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import javax.servlet.Servlet;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.jetty.server.Handler;
@@ -24,9 +22,7 @@ import ir.config.Configuration;
 import ir.config.ServletConfig;
 import ir.crawler.Crawler;
 import ir.crawler.TrainingData;
-import ir.servlets.AppServlet;
 
-//http://jyaml.sourceforge.net/tutorial.html
 public class App {
     private final Server  server;
     private List<Crawler> crawlers;
@@ -39,7 +35,7 @@ public class App {
                 .or(ServerConstants.DEFAULT_PORT));
     }
 
-    public void start() {
+    public void start() throws Exception {
         Version.upSince = new Date();
         startServerLog();
         crawlers = initializeCrawlers();
@@ -47,10 +43,13 @@ public class App {
         // server
         retriveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
+        server.start();
+        server.join();
     }
 
     /**
      * Setup log4j & Start server log
+     *  TODO
      */
     private void startServerLog() {
         String loggerConfig = ServerConstants.LOGGER_CONFIG_FILE;
@@ -58,7 +57,6 @@ public class App {
             System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
                     loggerConfig);
         }
-        //TODO
     }
 
     /**
@@ -97,7 +95,7 @@ public class App {
                         return buildServletHandler(servletConfig);
                     }
         });
-        servletHandler.forEach((handler)->{
+        servletHandler.forEach((handler) -> {
             handlers.addHandler(handler);
         });
         server.setHandler(handlers);
@@ -168,7 +166,11 @@ public class App {
 
     public static void main(String[] args) {
         App server = AppServer.INSATNCE;
-        server.start();
+        try {
+            server.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static class AppServer {
