@@ -16,6 +16,8 @@ public class Configuration {
     public static final String AWS_ENDPOINT           = "awsEndpoint";
 
     public static final String YOUTUBE_API_KEY        = "youtubeAPIKey";
+    
+    public static final String BUY_URL        = "buyURL";
 
     private Properties         properties;
 
@@ -44,6 +46,10 @@ public class Configuration {
 
     public String getYoutubeApiKey(){
         return properties.getProperty(YOUTUBE_API_KEY);
+    }
+    
+    public String getBuyURL(){
+        return properties.getProperty(BUY_URL);
     }
     
     /**
