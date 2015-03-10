@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import javax.servlet.Servlet;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 
@@ -83,33 +87,44 @@ public class App {
     /**
      * Add all the servlets to the server
      */
-    //TODO
-    // for each servlet:
-    // initialize the servlet using static method
-    // Create a handler with the context
-    // Create an optional connector with an optional threadpool
     private void servletInit() {
         HandlerCollection handlers = new HandlerCollection();
-        Iterable<AppServlet> servlets = Iterables.transform(Configuration.getInstance().getServlets(),
-                new Function<ServletConfig, AppServlet>() {
+        Iterable<Handler> servletHandler = Iterables.transform(Configuration.getInstance().getServlets(),
+                new Function<ServletConfig, Handler>() {
 
                     @Override
-                    public AppServlet apply(ServletConfig arg0) {
-                        // TODO Auto-generated method stub
-                        return null;
+                    public Handler apply(ServletConfig servletConfig) {
+                        return buildServletHandler(servletConfig);
                     }
         });
-        servlets.forEach((servlet) -> {
-            servlet.init();
+        servletHandler.forEach((handler)->{
+            handlers.addHandler(handler);
         });
-        handlers.addHandler(null);
         server.setHandler(handlers);
     }
 
     /**
-     * @param List
-     *            of product name queries Lucene will index all the retrieved
-     *            data afterwards
+     * Build servlet handler based on servlet configuration
+     * @param servletConfig
+     * @return ServletContextHandler servlet handler
+     */
+    private Handler buildServletHandler(ServletConfig servletConfig) {
+
+        ServletContextHandler contextHandler = new ServletContextHandler();
+        try {
+            contextHandler.setContextPath(servletConfig.getContextPath());
+            contextHandler.addServlet(servletConfig.getClassName(), ServerConstants.ROOT_PATH);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format(
+                    "Unable to create handler for servlet: %s",
+                    servletConfig.getClassName()), e);
+        }
+        return contextHandler;
+    }
+
+    /**
+     * @param List of product name queries
+     *        Lucene will index all the data being retrieved
      */
     public void retriveData(List<String> queries) {
         crawlers.stream()
