@@ -9,23 +9,25 @@ import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
 
-import com.google.common.base.Optional;
-
 public final class Configuration {
     // Server configuration
-    private int                 SERVER_PORT;
-    private String              PUBLIC_DIR;
-    private List<ServletConfig> SERVLETS;
-    private List<String>        CRAWLERS;
+    private int                 serverPort;
+    private String              publicDir;
+    private List<ServletConfig> servlets;
+    private List<String>        crawlers;
 
     // AWS configuration
-    private String              AWS_ACCESS_KEY_ID;
-    private String              AWS_SECRET_KEY;
-    private String              AWS_ENDPOINT;
+    private String              awsAccessKeyId;
+    private String              awsSecretKey;
+    private String              awsEndPoint;
 
     // YouTuBe configuration
-    private String              YOUTUBE_API_KEY;
+    private String              youtubeApiKey;
     private Configuration() {}
+
+    public static Configuration getInstance() {
+        return SingletonConfiguration.INSTANCE;
+    }
 
     private static Configuration getConfiguration() {
         Configuration config = null;
@@ -40,50 +42,124 @@ public final class Configuration {
         return config;
     }
 
-    public Optional<Integer> getServerPort() {
-        if (SERVER_PORT == 0) {
-            return Optional.absent();
-        } else {
-            return Optional.of(SERVER_PORT);
-        }
+
+    /**
+     * @return the serverPort
+     */
+    public int getServerPort() {
+        return serverPort;
     }
 
-    public String getPubDir() {
-        return PUBLIC_DIR;
+    /**
+     * @param serverPort the serverPort to set
+     */
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
     }
 
-    public List<String> getCrawlers() {
-        return CRAWLERS;
+    /**
+     * @return the publicDir
+     */
+    public String getPublicDir() {
+        return publicDir;
     }
 
+    /**
+     * @param publicDir the publicDir to set
+     */
+    public void setPublicDir(String publicDir) {
+        this.publicDir = publicDir;
+    }
+
+    /**
+     * @return the servlets
+     */
     public List<ServletConfig> getServlets() {
-        return SERVLETS;
+        return servlets;
     }
 
+    /**
+     * @param servlets the servlets to set
+     */
+    public void setServlets(List<ServletConfig> servlets) {
+        this.servlets = servlets;
+    }
+
+    /**
+     * @return the crawlers
+     */
+    public List<String> getCrawlers() {
+        return crawlers;
+    }
+
+    /**
+     * @param crawlers the crawlers to set
+     */
+    public void setCrawlers(List<String> crawlers) {
+        this.crawlers = crawlers;
+    }
+
+    /**
+     * @return the awsAccessKeyId
+     */
     public String getAwsAccessKeyId() {
-        return AWS_ACCESS_KEY_ID;
-    }
-    public String getAwsEndPoint() {
-        return AWS_ENDPOINT;
+        return awsAccessKeyId;
     }
 
+    /**
+     * @param awsAccessKeyId the awsAccessKeyId to set
+     */
+    public void setAwsAccessKeyId(String awsAccessKeyId) {
+        this.awsAccessKeyId = awsAccessKeyId;
+    }
+
+    /**
+     * @return the awsSecretKey
+     */
     public String getAwsSecretKey() {
-        return AWS_SECRET_KEY;
+        return awsSecretKey;
     }
 
-    public String getYouTuBeApiKey() {
-        return YOUTUBE_API_KEY;
+    /**
+     * @param awsSecretKey the awsSecretKey to set
+     */
+    public void setAwsSecretKey(String awsSecretKey) {
+        this.awsSecretKey = awsSecretKey;
     }
 
-    public static Configuration getInstance() {
-        return SingletonConfiguration.INSTANCE;
+    /**
+     * @return the awsEndPoint
+     */
+    public String getAwsEndPoint() {
+        return awsEndPoint;
+    }
+
+    /**
+     * @param awsEndPoint the awsEndPoint to set
+     */
+    public void setAwsEndPoint(String awsEndPoint) {
+        this.awsEndPoint = awsEndPoint;
+    }
+
+    /**
+     * @return the youtubeApiKey
+     */
+    public String getYoutubeApiKey() {
+        return youtubeApiKey;
+    }
+
+    /**
+     * @param youtubeApiKey the youtubeApiKey to set
+     */
+    public void setYoutubeApiKey(String youtubeApiKey) {
+        this.youtubeApiKey = youtubeApiKey;
     }
 
     @Override
     public String toString() {
         return String.format(
                 "Server listening on port: %s serving directory: %s",
-                SERVER_PORT, PUBLIC_DIR);
+                serverPort, publicDir);
     }
 
     private static class SingletonConfiguration {

@@ -37,6 +37,7 @@ public class AWSCrawler implements Crawler {
     @Override
     public void fetch(List<String> queries) {
         // TODO Auto-generated method stub
+        System.out.println("Amazon crawler called");
 
     }
 

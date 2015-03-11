@@ -10,6 +10,7 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import ir.config.Configuration;
+import ir.crawler.Crawler;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class YouTubeCrawler {
+public class YouTubeCrawler implements Crawler{
     private static final long NUMBER_OF_VIDEOS_RETURNED = 1;
 
     /**
@@ -27,6 +28,12 @@ public class YouTubeCrawler {
      */
     private static YouTube    youtube;
     private Logger            logger;
+
+    @Override
+    public void fetch(List<String> queries) {
+        // TODO Auto-generated method stub
+        System.out.println("YouTube Crawler called");
+    }
 
     public void init() throws Exception {
         logger = LogManager.getLogger(YouTubeCrawler.class);
@@ -52,7 +59,7 @@ public class YouTubeCrawler {
 
     private YouTube.Search.List searchConfig(String keyword) throws IOException {
         YouTube.Search.List search = youtube.search().list("id,snippet");
-        String apiKey = Configuration.getInstance().getYouTuBeApiKey();
+        String apiKey = Configuration.getInstance().getYoutubeApiKey();
         search.setKey(apiKey);
         search.setQ(keyword + " review");
 
