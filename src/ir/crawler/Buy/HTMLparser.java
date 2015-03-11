@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import ir.server.ParsedDocument;
+import ir.index.ParsedDocument;
 
 interface HTMLparser {
     default List<ParsedDocument> parse(String CommentSelector,

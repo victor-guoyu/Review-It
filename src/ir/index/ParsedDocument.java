@@ -1,4 +1,4 @@
-package ir.server;
+package ir.index;
 
 public final class ParsedDocument {
     public final String documentId;

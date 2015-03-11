@@ -17,6 +17,7 @@ youtubeApiKey: AIzaSyBQXg30E9SWTTl8xFjFJoayFYDJyjc_JGk
 
 # OverStock Query Url
 overStockUrl: http://www.overstock.com/search?keywords=%s
+
 # Crawlers
 crawlers:
   - ir.crawler.amazon.AWSCrawler

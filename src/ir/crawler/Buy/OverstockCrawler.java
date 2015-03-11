@@ -1,7 +1,7 @@
 package ir.crawler.Buy;
 
 import ir.config.Configuration;
-import ir.server.ParsedDocument;
+import ir.index.ParsedDocument;
 
 import java.io.IOException;
 import java.util.ArrayList;

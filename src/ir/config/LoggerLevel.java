@@ -1,4 +1,4 @@
-package ir.server;
+package ir.config;
 
 import org.apache.logging.log4j.Level;
 
