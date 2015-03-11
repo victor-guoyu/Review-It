@@ -11,9 +11,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -92,6 +90,7 @@ public class App {
 
     /**
      * Add all the servlets to the server
+     * including resource handler serving static files
      */
     private void servletInit() {
         HandlerCollection handlers = new HandlerCollection();
