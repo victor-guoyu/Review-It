@@ -1,0 +1,113 @@
+<!-- ======================================================================= -->
+<!-- Build file for AppServer                                                     -->
+<!-- ======================================================================= -->
+<project name="IRSystem" default="main" basedir=".">
+    <description>
+        CSI4900 Honours Project build script
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src"  location="${basedir}"/>
+  <property name="bin"  location="${basedir}/bin"/>
+  <property name="lib"  location="${basedir}/lib"/>
+  <property name="build" location="${basedir}/dist"/>
+
+  <macrodef name="git-sha">
+    <sequential>
+      <exec executable="git" outputproperty="GIT_SHA1" failonerror="false" failifexecutionfails="false">
+        <arg value = "rev-parse" />
+        <arg value = "HEAD" />
+      </exec>
+        <exec executable="git" outputproperty="GIT_BRANCH" failonerror="false" failifexecutionfails="false">
+          <arg value = "rev-parse" />
+          <arg value = "--abbrev-ref" />
+          <arg value = "HEAD" />
+        </exec>
+    </sequential>
+  </macrodef>
+
+  <target name="main" depends="init,info,compile,jar" />
+
+  <target name="init">
+    <git-sha />
+  </target>
+
+  <target name="info">
+    <echoproperties />
+  </target>
+
+  <target name="compile">
+    <!-- make sure the bin directory exists -->
+    <mkdir dir="${bin}"/>
+    <!-- Compile the java code from ${src} into ${bin} -->
+    <javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <fileset dir="${lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${tcDist}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target
+    name="jar"
+    depends="compile"
+    description="generate the distribution"
+  >
+    <!-- check preconditions -->
+    <!--
+    <fail unless="GIT_SHA1"  message="GIT_SHA1 environment variable is not set" />
+    -->
+
+    <!-- ensure the charset is registered in the manifest -->
+    <mkdir dir="${bin}/META-INF/services/"/>
+
+    <!-- get rid of the jar file we currently have -->
+    <delete file="${build}/appserver.jar"/>
+
+    <!-- get the version -->
+    <loadfile property="version.from.src" srcfile="${src}/src/appserver/appserver/Version.java">
+      <filterchain>
+        <linecontainsregexp>
+          <regexp pattern='AppServerBuild*'/>
+        </linecontainsregexp>
+        <striplinebreaks />
+        <tokenfilter>
+          <replaceregex
+            pattern='public static final String AppServerBuild = (.*);'
+            replace='\1'
+          />
+        </tokenfilter>
+        <trim/>
+      </filterchain>
+    </loadfile>
+
+    <echo message="AppServer version: [${version.from.src}]" />
+
+    <!-- date/time -->
+    <tstamp>
+      <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+    </tstamp>
+
+    <!-- make the AppServer jar file -->
+    <jar jarfile="${build}/appserver.jar">
+      <!-- define MANIFEST.MF -->
+      <manifest>
+        <attribute name="Built-By" value="${user.name}" />
+        <attribute name="Built-Date" value="${TODAY}" />
+        <attribute name="Main-Class" value="appserver.appserver.AppServer" />
+        <attribute name="Implementation-Version" value="${version.from.src}" />
+        <attribute name="Git-SHA1" value="${GIT_SHA1}" />
+        <attribute name="Git-branch" value="${GIT_BRANCH}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${bin}"/>
+    <delete file="${build}/appserver.jar"/>
+  </target>
+</project>
