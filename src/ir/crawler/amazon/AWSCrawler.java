@@ -1,145 +1,119 @@
 package ir.crawler.amazon;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
+import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 
-import ir.server.*;
+import ir.config.Configuration;
+import ir.crawler.Crawler;
+import static ir.crawler.amazon.AWSRequestFileds.*;
 
 /**
- * 
+ *
  * @author Zhiting Lin Amazon customer review crawler
  *
+ *         http://docs.aws.amazon.com/AWSECommerceService/latest/DG/ItemSearch.
+ *         html
  */
 
-public class AWSCrawler {
-    private Logger               mainLog;
+public class AWSCrawler implements Crawler {
+    private Logger               logger;
     private SignedRequestsHelper helper;
-    private final Level          RESULT = Level.forName("RESULT", 450);
-    private String               URL;
+    private String[]             pageLinksToVisit;
+    private HashMap<String, String> titleToReviews;
 
-    public AWSCrawler() {
-        try {
-            helper = SignedRequestsHelper.getInstance(Configuration
-                    .getInstance().getAWSEndpoint(), Configuration
-                    .getInstance().getAWSAccessId(), Configuration
-                    .getInstance().getAWSSecreKey());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
+    @Override
+    public void fetch(List<String> queries) {
+        // TODO Auto-generated method stub
+
     }
 
-    public Logger getMainLog() {
-        return mainLog;
-    }
-
-    public void init() {
-        Configuration.getInstance();
-        mainLog = LogManager.getLogger(AWSCrawler.class);
-        mainLog.info("Log Started...");
-        try {
-            createURL();
-            mainLog.info("............FINISH CREATE URL.............");
-            XMLReader(URL);
-            mainLog.info("............DONE.............");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Create the REST url
-     */
-    private void createURL() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("AssociateTag", "com0fd-20");
-        params.put("Service", "AWSECommerceService");
-        params.put("Operation", "ItemSearch");
-        params.put("SearchIndex", "All");
-        params.put("Keywords", "fdgsesgegs");
-        params.put("IncludeReviewsSummary", "true");
-        params.put("ItemPage", "1");
-
-        URL = helper.sign(params);
-        mainLog.info(URL);
-    }
-
-    /**
-     * 
-     * @param requestUrl
-     *            : callback XML URL
-     * @return
-     */
-    private void XMLReader(String requestUrl) {
-        // String title = null;
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(requestUrl);
-            doc.getDocumentElement().normalize();
-            NodeList nodeList = doc.getElementsByTagName("Item");
-
-            String title = null;
-            String CustomerReviewURL = null;
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node item = nodeList.item(i);
-                if (item.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) item;
-                    NodeList ItemLinks = element
-                            .getElementsByTagName("ItemLink");
-                    for (int j = 0; j < ItemLinks.getLength(); j++) {
-                        Element CURL = (Element) ItemLinks.item(j);
-                        if (CURL.getElementsByTagName("Description").item(0)
-                                .getTextContent().contains("Customer Reviews")) {
-
-                            CustomerReviewURL = CURL
-                                    .getElementsByTagName("URL").item(0)
-                                    .getTextContent();
-                            break;
-
-                        }
-                    }
-                    title = element.getElementsByTagName("Title").item(0)
-                            .getTextContent();
-                }
-
-                String msg = new StringBuilder()
-                .append(title)
-                .append(" ")
-                .append(CustomerReviewURL).toString();
-
-                mainLog.info(msg);
-
-                RetriveCustomerReview(CustomerReviewURL);
+    public void init() throws Exception {
+        logger = LogManager.getLogger(AWSCrawler.class);
+        helper = SignedRequestsHelper
+                .getInstance(
+                        Configuration.getInstance().getAwsEndPoint(),
+                        Configuration.getInstance().getAwsAccessKeyId(),
+                        Configuration.getInstance().getAwsSecretKey());
+        pageLinksToVisit = createURLs();
+        for (String link : pageLinksToVisit) {
+            titleToReviews = retrieveTitleToReviews(link);
+            for(Entry<String, String> entry : titleToReviews.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue());
             }
-        } catch (Exception e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
         }
     }
 
-    private void RetriveReviews() {
+    /**
+     * Create the URLs
+     * TODO max to retrieve 10 pages
+     */
+    private String [] createURLs() {
+        String[] linksToVisit = new String [10];
 
+        HashMap<String, String> params = Maps.newHashMap();
+        params.put(PARAM_KEY_ASSOCIATETAG, "com0fd-20");
+        params.put(PARAM_KEY_SERVICE, PARAM_VALUE_SERVICE);
+        params.put(PARAM_KEY_OPERATION, PARAM_VALUE_OPERATION);
+        params.put(PARAM_KEY_SEARCHINDEX, "All");
+        params.put(PARAM_KEY_KEYWORDS, "macbook");
+        params.put(PARAM_KEY_INCLUDEREVIEWS, PARAM_VALUE_INCLUDEREVIEWS);
+
+        for(int i=0; i< linksToVisit.length; i++) {
+            params.put(PARAM_KEY_ITEMPAGE, String.valueOf(i+1));
+            linksToVisit[i] = helper.sign(params);
+        }
+        return linksToVisit;
+    }
+
+    private HashMap<String, String> retrieveTitleToReviews(String url) throws IOException {
+        Document page = null;
+        HashMap<String, String> titleToReviews = Maps.newHashMap();
+        try {
+            page = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            return titleToReviews;
+        }
+        Elements items = page.getElementsByTag(ITEM_TAG);
+        Iterator<Element> itemsIterator = items.iterator();
+        Elements errors = page.getElementsByTag(ERROR_TAG);
+        while (itemsIterator.hasNext() && errors.isEmpty()) {
+            Element item = itemsIterator.next();
+            String title = item.getElementsByTag(TITLE_TAG).get(FIRST_ELEMENT).text();
+            for (Element itemLink : item.getElementsByTag(ITEMLINK_TAG)) {
+                if (itemLink.getElementsByTag(DESCRIPTION_TAG).get(FIRST_ELEMENT).text()
+                        .contains("Customer Reviews")) {
+                    titleToReviews.put(title, itemLink.getElementsByTag(URL_TAG)
+                            .get(FIRST_ELEMENT).text());
+                }
+            }
+        }
+        return titleToReviews;
+    }
+
+    private void retriveReviews(org.jsoup.nodes.Document doc) {
+        Elements reviewList = doc.select("div.reviewText");
+        for (int i = 0; i < reviewList.size(); i++) {
+            String msg = reviewList.get(i).html();
+            logger.info(msg);
+        }
     }
 
     /**
-     * 
+     *
      * @param ReviewURL
      *            : The URL that need to be extracted
      * @throws Exception
@@ -162,16 +136,12 @@ public class AWSCrawler {
             }
         }
         // pagingURL = reviewpageURLList.first().attr("href");
-        mainLog.info(num);
-        mainLog.info(pagingURL);
+        logger.info(num);
+        logger.info(pagingURL);
 
         // for loop to retrieve all the customer reviews.
 
         // retrive review
-        Elements reviewList = doc.select("div.reviewText");
-        for (int i = 0; i < reviewList.size(); i++) {
-            String msg = reviewList.get(i).html();
-            mainLog.info(msg);
-        }
+        retriveReviews(doc);
     }
 }

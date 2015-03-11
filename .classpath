@@ -2,30 +2,41 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="libs/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="libs/guava-18.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://docs.guava-libraries.googlecode.com/git-history/v18.0/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="libs/log4j-api-2.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/log4j-api-2.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/log4j-api-2.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/log4j-core-2.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/log4j-core-2.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/log4j-core-2.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/commons-codec-1.10.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/commons-codec-1.10-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/commons-codec-1.10-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jsoup-1.8.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/jsoup-1.8.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jsoup-1.8.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-all-9.2.8.v20150217.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jetty-all-9.2.8.v20150217-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/snakeyaml-1.15.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-services-youtube-v3-rev128-1.19.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/IRSystem/javadoc/google-api-services-youtube-v3-rev128-1.19.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/google-api-services-youtube-v3-rev128-1.19.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/google-api-client-1.19.1.jar"/>
