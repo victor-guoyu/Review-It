@@ -28,8 +28,8 @@ public class App {
     private Configuration config;
 
     private App() {
+        startServerLogger();
         mainLog = LogManager.getLogger(App.class);
-        startServerLog();
         config = Configuration.getInstance();
         Optional<Integer> port = Optional.of(config.getServerPort());
         server = new Server(port.filter(p -> p != 0)
@@ -56,7 +56,7 @@ public class App {
     /**
      * Setup log4j & Start server log
      */
-    private void startServerLog() {
+    private void startServerLogger() {
         String loggerConfig = ServerConstants.LOGGER_CONFIG_FILE;
         if (Strings.isNotEmpty(loggerConfig)) {
             System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
