@@ -24,6 +24,10 @@ public final class Configuration {
 
     // YouTuBe configuration
     private String              youtubeApiKey;
+
+    // Over Stock configuration
+    private String              overStockUrl;
+
     private Configuration() {}
 
     public static Configuration getInstance() {
@@ -168,6 +172,20 @@ public final class Configuration {
      */
     public void setYoutubeApiKey(String youtubeApiKey) {
         this.youtubeApiKey = youtubeApiKey;
+    }
+
+    /**
+     * @return the overStockUrl
+     */
+    public String getOverStockUrl() {
+        return overStockUrl;
+    }
+
+    /**
+     * @param overStockUrl the overStockUrl to set
+     */
+    public void setOverStockUrl(String overStockUrl) {
+        this.overStockUrl = overStockUrl;
     }
 
     @Override
