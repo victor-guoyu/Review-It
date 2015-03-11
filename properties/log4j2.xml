@@ -13,7 +13,7 @@
             <ThresholdFilter level="fatal" onMatch="DENY"   onMismatch="NEUTRAL"/>
 			<ThresholdFilter level="info"  onMatch="DENY"   onMismatch="NEUTRAL"/>
             <!-- This filter accepts info, warn, error, fatal and denies debug/trace -->
-            <ThresholdFilter level="result"  onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="trace"  onMatch="ACCEPT" onMismatch="DENY"/>
         </Filters>
     </File>
   </Appenders>

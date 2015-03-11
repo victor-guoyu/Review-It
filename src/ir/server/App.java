@@ -2,17 +2,16 @@ package ir.server;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.eclipse.jetty.util.thread.ThreadPool;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -25,22 +24,30 @@ import ir.crawler.TrainingData;
 
 public class App {
     private final Server  server;
+    private final Logger  mainLog;
     private List<Crawler> crawlers;
-    private Logger        mainLog;
     private Configuration config;
 
     private App() {
+        startServerLogger();
+        mainLog = LogManager.getLogger(App.class);
         config = Configuration.getInstance();
-        server = new Server(config.getServerPort()
-                .or(ServerConstants.DEFAULT_PORT));
+        Optional<Integer> port = Optional.of(config.getServerPort());
+        server = new Server(port.filter(p -> p != 0)
+                    .map(p -> p).orElse(ServerConstants.DEFAULT_PORT));
+        mainLog.info(String.format("Starting server listening on port: %s",
+                port));
+    }
+
+    public Logger getMainLog() {
+        return mainLog;
     }
 
     public void start() throws Exception {
         Version.upSince = new Date();
-        startServerLog();
         crawlers = initializeCrawlers();
-        // Build the initial data set before the user can retrieve from the
-        // server
+        // Build the initial data set before
+        // the user can retrieve from the server
         retriveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
         server.start();
@@ -49,9 +56,8 @@ public class App {
 
     /**
      * Setup log4j & Start server log
-     *  TODO
      */
-    private void startServerLog() {
+    private void startServerLogger() {
         String loggerConfig = ServerConstants.LOGGER_CONFIG_FILE;
         if (Strings.isNotEmpty(loggerConfig)) {
             System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
@@ -84,6 +90,7 @@ public class App {
 
     /**
      * Add all the servlets to the server
+     * including resource handler serving static files
      */
     private void servletInit() {
         HandlerCollection handlers = new HandlerCollection();
@@ -98,6 +105,7 @@ public class App {
         servletHandler.forEach((handler) -> {
             handlers.addHandler(handler);
         });
+        handlers.addHandler(buildResourceHandler());
         server.setHandler(handlers);
     }
 
@@ -111,13 +119,25 @@ public class App {
         ServletContextHandler contextHandler = new ServletContextHandler();
         try {
             contextHandler.setContextPath(servletConfig.getContextPath());
-            contextHandler.addServlet(servletConfig.getClassName(), ServerConstants.ROOT_PATH);
+            contextHandler.addServlet(servletConfig.getClassName(),
+                    ServerConstants.ROOT_PATH);
         } catch (Exception e) {
             throw new RuntimeException(String.format(
                     "Unable to create handler for servlet: %s",
                     servletConfig.getClassName()), e);
         }
+        mainLog.info(String.format("Added servlet handler: %s to path: ",
+                servletConfig.getClassName(), servletConfig.getContextPath()));
         return contextHandler;
+    }
+
+    private Handler buildResourceHandler() {
+        ResourceHandler ctx = new ResourceHandler();
+        ctx.setDirectoriesListed(true);
+        List<String> wp = config.getWlecomePages();
+        ctx.setWelcomeFiles(wp.toArray(new String[wp.size()]));
+        ctx.setResourceBase(config.getPublicDir());
+        return ctx;
     }
 
     /**
@@ -131,43 +151,11 @@ public class App {
         });
     }
 
-    private ThreadPool getThreadPool(String name, int maxThreads,
-            int minThreads, int idleTimeout, int queueSize) {
-
-        if (maxThreads <= 0) {
-            mainLog.info(String
-                    .format("No threadpool for %s will use the server threadpool",
-                            name));
-            return null;
-        }
-
-        mainLog.info(String.format(
-                "Creating threadpool %s threads %s queueSize ", name,
-                maxThreads, queueSize));
-
-        BlockingQueue<Runnable> queue = null;
-        if (queueSize > 0) {
-            queue = new ArrayBlockingQueue<Runnable>(queueSize);
-        }
-        // else it defaults to the unbounded BlockingArrayQueue if null (not a
-        // good idea)
-
-        if (idleTimeout == 0) {
-            idleTimeout = 60000;
-        }
-
-        QueuedThreadPool tp = new QueuedThreadPool(maxThreads, minThreads,
-                idleTimeout, queue);
-        if (name != null)
-            tp.setName(name);
-
-        return tp;
-    }
-
     public static void main(String[] args) {
         App server = AppServer.INSATNCE;
         try {
             server.start();
+            server.getMainLog().info(Version.showInfo());
         } catch (Exception e) {
             e.printStackTrace();
         }

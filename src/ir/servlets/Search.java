@@ -6,6 +6,6 @@ public class Search extends JsonServlet implements AppServlet{
 
     @Override
     public void init() {
-
+        System.out.println("Search servlet called");
     }
 }

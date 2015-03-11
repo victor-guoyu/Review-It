@@ -1,22 +1,28 @@
 # Server params
-SERVER_PORT: 8080
-PUBLIC_DIR: public
+serverPort: 8080
+publicDir: public
+
+# Default page
+wlecomePages:
+  - index.html
+  - default.html
 
 # AWS params
-AWS_ACCESS_KEY_ID: AKIAI4G5OARPTHUJYJMA
-AWS_SECRET_KEY: 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
-AWS_ENDPOINT: webservices.amazon.com
+awsAccessKeyId: AKIAI4G5OARPTHUJYJMA
+awsSecretKey: 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
+awsEndPoint: webservices.amazon.com
 
 # YouTuBe params
-YOUTUBE_API_KEY: AIzaSyBQXg30E9SWTTl8xFjFJoayFYDJyjc_JGk
+youtubeApiKey: AIzaSyBQXg30E9SWTTl8xFjFJoayFYDJyjc_JGk
 
 # Crawlers
-CRAWLERS:
+crawlers:
   - ir.crawler.amazon.AWSCrawler
+  - ir.crawler.youtube.YouTubeCrawler
 
 # Servlets
-SERVLETS:
+servlets:
   - className: ir.servlets.Search
-    contextPath: search/
-  - className: ir.servlets.Training;
-    contextPath: training/
+    contextPath: /search
+  - className: ir.servlets.Training
+    contextPath: /training

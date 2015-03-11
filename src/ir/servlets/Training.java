@@ -6,7 +6,7 @@ public class Training extends JsonServlet implements AppServlet{
 
     @Override
     public void init() {
-
+        System.out.println("Training servlet is called");
     }
 
 }
