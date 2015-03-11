@@ -2,6 +2,11 @@
 serverPort: 8080
 publicDir: public
 
+# Default page
+wlecomePages:
+  - index.html
+  - default.html
+
 # AWS params
 awsAccessKeyId: AKIAI4G5OARPTHUJYJMA
 awsSecretKey: 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

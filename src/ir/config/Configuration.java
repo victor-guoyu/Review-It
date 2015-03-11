@@ -15,6 +15,7 @@ public final class Configuration {
     private String              publicDir;
     private List<ServletConfig> servlets;
     private List<String>        crawlers;
+    private List<String>        wlecomePages;
 
     // AWS configuration
     private String              awsAccessKeyId;
@@ -97,6 +98,20 @@ public final class Configuration {
      */
     public void setCrawlers(List<String> crawlers) {
         this.crawlers = crawlers;
+    }
+
+    /**
+     * @return the wlecomePages
+     */
+    public List<String> getWlecomePages() {
+        return wlecomePages;
+    }
+
+    /**
+     * @param wlecomePages the wlecomePages to set
+     */
+    public void setWlecomePages(List<String> wlecomePages) {
+        this.wlecomePages = wlecomePages;
     }
 
     /**

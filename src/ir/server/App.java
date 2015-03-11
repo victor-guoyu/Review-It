@@ -10,7 +10,10 @@ import org.apache.logging.log4j.util.Strings;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -23,8 +26,8 @@ import ir.crawler.TrainingData;
 
 public class App {
     private final Server  server;
+    private final Logger  mainLog;
     private List<Crawler> crawlers;
-    private Logger        mainLog;
     private Configuration config;
 
     private App() {
@@ -45,8 +48,8 @@ public class App {
     public void start() throws Exception {
         Version.upSince = new Date();
         crawlers = initializeCrawlers();
-        // Build the initial data set before the user can retrieve from the
-        // server
+        // Build the initial data set before
+        // the user can retrieve from the server
         retriveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
         server.start();
@@ -103,6 +106,7 @@ public class App {
         servletHandler.forEach((handler) -> {
             handlers.addHandler(handler);
         });
+        handlers.addHandler(buildResourceHandler());
         server.setHandler(handlers);
     }
 
@@ -126,6 +130,15 @@ public class App {
         mainLog.info(String.format("Added servlet handler: %s to path: ",
                 servletConfig.getClassName(), servletConfig.getContextPath()));
         return contextHandler;
+    }
+
+    private Handler buildResourceHandler() {
+        ResourceHandler ctx = new ResourceHandler();
+        ctx.setDirectoriesListed(true);
+        List<String> wp = config.getWlecomePages();
+        ctx.setWelcomeFiles(wp.toArray(new String[wp.size()]));
+        ctx.setResourceBase(config.getPublicDir());
+        return ctx;
     }
 
     /**
