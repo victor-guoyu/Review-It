@@ -1,4 +1,5 @@
-# Crawler Configurations
+# CSI 4900 Honours Project [![Build Status](https://magnum.travis-ci.com/HelloBugs/HonoursProject.svg?token=JyjYuZgyDwc1WodXtDjw&branch=master)](https://magnum.travis-ci.com/HelloBugs/HonoursProject)
+## Crawler Configurations 
 ## AWS params
     - AWSAccessKeyId = AKIAI4G5OARPTHUJYJMA
     - AWSSecretKey = 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
