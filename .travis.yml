@@ -1,2 +1,5 @@
-
 language: java
+notifications:
+  email:
+    - victor.guoyu@hotmail.com
+    - zlin035@uottawa.ca
