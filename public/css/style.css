@@ -1,0 +1,39 @@
+body, h3{
+	font-family: "Cantarell", sans-serif !important;
+}
+.bg{
+	background-image: url(../img/background2.jpg) ;
+    background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color:#EDF3F1;
+	}
+div{
+	display: block;
+}
+.opacityInputbox{
+	opacity: 0.75;
+}
+form{
+	text-align: center;
+}
+
+.searchbox{
+position: inherit;
+  top: 30%;
+  /*left: 8%;*/
+  /*width: 1028px;*/
+  margin: 0;
+  z-index: 9;
+}
+h3{
+	color: #0F4E63;
+}
+.white{
+	color: #EDF3F1;
+}
+.footer{
+	position: fixed;
+	bottom: 0px;
+}
