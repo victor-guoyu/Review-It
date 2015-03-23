@@ -8,7 +8,7 @@
   <!-- set global properties for this build -->
   <property name="src"  location="${basedir}"/>
   <property name="bin"  location="${basedir}/bin"/>
-  <property name="lib"  location="${basedir}/lib"/>
+  <property name="lib"  location="${basedir}/libs"/>
   <property name="build" location="${basedir}/dist"/>
 
   <macrodef name="git-sha">
@@ -45,9 +45,6 @@
         <fileset dir="${lib}">
           <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${tcDist}">
-          <include name="**/*.jar"/>
-        </fileset>
       </classpath>
     </javac>
   </target>
@@ -69,7 +66,7 @@
     <delete file="${build}/appserver.jar"/>
 
     <!-- get the version -->
-    <loadfile property="version.from.src" srcfile="${src}/src/appserver/appserver/Version.java">
+    <loadfile property="version.from.src" srcfile="${src}/src/ir/server/Version.java">
       <filterchain>
         <linecontainsregexp>
           <regexp pattern='AppServerBuild*'/>
