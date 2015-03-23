@@ -102,7 +102,9 @@
       </manifest>
     </jar>
   </target>
-
+  <target name="test" description="Test Suites">
+    <echo message="TODO: No test cases implementated"/>
+  </target>
   <target name="clean" description="clean up" >
     <delete dir="${bin}"/>
     <delete file="${build}/appserver.jar"/>
