@@ -22,9 +22,13 @@ h3{
 	color: #0F4E63;
 }
 
-iframe{
+.youtube-style, .twitter-style{
 	width:100%; 
-	; 
+	height: -moz-calc((100vh - 2.8125rem)/2);
+height: -webkit-calc((100vh - 2.8125rem)/2);
+height: -o-calc((100vh - 2.8125rem)/2);
+	height: calc((100vh - 2.8125rem)/2);
+	/*height: 50vh;*/
 }
 
 /*.title-area{
@@ -34,12 +38,11 @@ iframe{
 	padding-right: 6px;
 }*/
 .height-fill-screen{
-	height: -moz-calc(100% - 2.8125rem);
-/* WebKit */
+	/*height: -moz-calc(100% - 2.8125rem);
 height: -webkit-calc(100% - 2.8125rem);
-/* Opera */
 height: -o-calc(100% - 2.8125rem);
-	height: calc(100% - 2.8125rem);
+	height: calc(100% - 2.8125rem);*/
+	height: 100%;
 	/*overflow: hidden;*/
 }
 .bg{
