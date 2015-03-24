@@ -1,4 +1,5 @@
 bin/*
 logs/*
 /bin/
+dist/*
 .DS_Store
