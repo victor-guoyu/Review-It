@@ -1,4 +1,4 @@
-package ir.crawler.Buy;
+package ir.crawler.overstock;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import ir.crawler.Source;
 import ir.index.ParsedDocument;
 
 interface HTMLparser {
@@ -20,9 +21,9 @@ interface HTMLparser {
         List<ParsedDocument> parsedList = new ArrayList<ParsedDocument>();
 
         String ProductTitle = getProductTitle(doc, TitleSelector);
-        
+
         for (Element comment : CommentElement) {
-            parsedList.add(new ParsedDocument.Builder("ID")
+            parsedList.add(new ParsedDocument.Builder("ID", Source.OVERSTOCK)
                     .productName(ProductTitle)
                     .comment(comment.html()).commentUrl(weburl).build());
             System.out.println("Title-" + ProductTitle + ": " + comment.html());

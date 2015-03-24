@@ -2,6 +2,11 @@
 serverPort: 8080
 publicDir: public
 
+# Indexer params
+indexDir: index
+stopWord: data/stopWords.txt
+stopWordSize : 779
+
 # Default page
 wlecomePages:
   - index.html

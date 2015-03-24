@@ -17,6 +17,11 @@ public final class Configuration {
     private List<String>        crawlers;
     private List<String>        wlecomePages;
 
+    //Indexer configuration
+    private String              indexDir;
+    private String              stopWord;
+    private int                 stopWordSize;
+
     // AWS configuration
     private String              awsAccessKeyId;
     private String              awsSecretKey;
@@ -186,6 +191,48 @@ public final class Configuration {
      */
     public void setOverStockUrl(String overStockUrl) {
         this.overStockUrl = overStockUrl;
+    }
+
+    /**
+     * @return the indexDir
+     */
+    public String getIndexDir() {
+        return indexDir;
+    }
+
+    /**
+     * @param indexDir the indexDir to set
+     */
+    public void setIndexDir(String indexDir) {
+        this.indexDir = indexDir;
+    }
+
+    /**
+     * @return the stopWord
+     */
+    public String getStopWord() {
+        return stopWord;
+    }
+
+    /**
+     * @param stopWord the stopWord to set
+     */
+    public void setStopWord(String stopWord) {
+        this.stopWord = stopWord;
+    }
+
+    /**
+     * @return the stopWordSize
+     */
+    public int getStopWordSize() {
+        return stopWordSize;
+    }
+
+    /**
+     * @param stopWordSize the stopWordSize to set
+     */
+    public void setStopWordSize(int stopWordSize) {
+        this.stopWordSize = stopWordSize;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ir.crawler.Buy;
+package ir.crawler.overstock;
 
 import ir.config.Configuration;
 import ir.index.ParsedDocument;
