@@ -1,0 +1,168 @@
+@font-face {
+    font-family: "Braggadocio Regular";
+    src: url("font/ufonts.com_braggadocio.ttf");
+}
+html, body {
+    height: 100%;
+}
+body, h3 {
+    font-family: "Cantarell", sans-serif !important;
+}
+div {
+    display: block;
+}
+form {
+    text-align: center;
+}
+h3 {
+    color: #0F4E63;
+}
+/*img {
+    max-width: 100%;
+    height: auto;
+}*/
+.youtube-style, .twitter-style {
+    width: 100%;
+    height: -moz-calc((100vh - 2.8125rem - 10px)/2);
+    height: -webkit-calc((100vh - 2.8125rem - 10px)/2);
+    height: -o-calc((100vh - 2.8125rem - 10px)/2);
+    height: calc((100vh - 2.8125rem - 10px)/2);
+}
+/*.title-area{
+	padding-left: 6px;
+}
+.right{
+	padding-right: 6px;
+}*/
+
+.height-fill-screen {
+    /*height: -moz-calc(100% - 2.8125rem);
+height: -webkit-calc(100% - 2.8125rem);
+height: -o-calc(100% - 2.8125rem);
+	height: calc(100% - 2.8125rem);*/
+    
+    height: 100%;
+    /*overflow: hidden;*/
+}
+.bg {
+    background-image: url(../img/background2.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #EDF3F1;
+}
+.opacityInputbox {
+    opacity: 0.75;
+}
+.searchbox {
+    position: inherit;
+    top: 30%;
+    /*left: 8%;*/
+    /*width: 1028px;*/
+    
+    margin: 0;
+    z-index: 9;
+}
+.white {
+    color: #EDF3F1;
+}
+.white:hover {
+    color: #FFFFFf;
+}
+.footer {
+    position: fixed;
+    bottom: 0px;
+}
+.headertitle {
+    font-family: "Braggadocio Regular";
+    font-size: x-large;
+}
+.top-bar, .top-bar.expanded .title-area {
+    background: #81b9cb;
+}
+.commentpart {
+    background: #f6f9f8;
+    overflow: scroll;
+}
+.transparent, .transparent:hover, .transparent:visited, .transparent:active {
+    background: 0;
+}
+.full-width {
+    width: 100%;
+}
+.text-right {
+    text-align: right;
+}
+.eight-width {
+    width: 80%;
+}
+.heardersearchbox {
+    width: 30%;
+    padding-right: 10px;
+}
+.nonstyle, .nonstyle:hover, .nonstyle:active, .nonstyle:focus {
+    background: none;
+    border-color: transparent;
+    padding: 2px 6px !important;
+}
+.top-bar-section ul li, .gray {
+    background: #BBBFC0;
+}
+.padding-none {
+    padding: 0px;
+}
+.padding-10 {
+    padding: 10px;
+}
+.margin-20-10 {
+    margin: 20px 10px;
+}
+.padding-10-20 {
+    padding: 10px 20px;
+}
+.commentcolor {
+    border-radius: 10px;
+}
+.commentcolor:nth-child(odd) {
+    background: #dddada;
+}
+.commentcolor:nth-child(even) {
+    background: #faf3f0;
+}
+.like {
+    color: #cc9087;
+}
+.unlike {
+    color: #6c6c6c;
+}
+.size-12 {
+    font-size: 12px;
+}
+.size-14 {
+    font-size: 14px;
+}
+.size-16 {
+    font-size: 16px;
+}
+.size-18 {
+    font-size: 18px;
+}
+.size-21 {
+    font-size: 21px;
+}
+.size-24 {
+    font-size: 24px;
+}
+.size-36 {
+    font-size: 36px;
+}
+.size-48 {
+    font-size: 48px;
+}
+.size-60 {
+    font-size: 60px;
+}
+.size-72 {
+    font-size: 72px;
+}
