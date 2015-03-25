@@ -22,6 +22,8 @@ public class TwitterCrawler implements Crawler {
             for (int i = 0; i < size; i++) {
                 System.out.println("@"
                         + tweets.get(i).getUser().getScreenName() + " - "
+                        + tweets.get(i).getUser().getBiggerProfileImageURL() + " - "
+                        + tweets.get(i).getCreatedAt().toString()  + " - "
                         + tweets.get(i).getText());
             }
             System.exit(0);
