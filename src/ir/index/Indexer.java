@@ -1,12 +1,12 @@
 package ir.index;
 
 import ir.config.Configuration;
-import ir.index.ParsedDocument.Fields;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.logging.log4j.util.Strings;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
@@ -15,9 +15,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryparser.surround.parser.QueryParser;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
@@ -27,52 +25,56 @@ import com.google.common.io.LineProcessor;
 
 public class Indexer {
     private EnglishAnalyzer enAnalyzer;
-    private QueryParser     queryParser;
     private Directory       indexDir;
     private IndexWriter     indexWriter;
 
-    private Indexer() {
-        indexDir = getIndexDirectory();
+    public Indexer(Directory indexDir) {
+        this.indexDir = indexDir;
         enAnalyzer = setUpEnAnalyzer();
         indexWriter = getIndexWriter();
     }
-//            //A field that is indexed but not tokenized:
-//            //For example this might be used for a 'country' field or an 'id' field
-//            doc.add(new StringField(TwitterMsg.ID.name(), temp[0], Field.Store.YES));
-//            // Indexed, tokenized
-//            doc.add(new TextField(TwitterMsg.TWEET.name(), temp[1], Field.Store.YES));
-//            indexWriter.addDocument(doc);
-//        }
-//        reader.close();
-//        indexWriter.close();
-//    }
 
     public void indexParsedDocument(ParsedDocument document) {
-        Preconditions.checkNotNull(indexWriter, "The index writer is not initialized");
+        Preconditions.checkNotNull(indexWriter,
+                "The index writer is not initialized");
         Document newDoc = new Document();
-        newDoc.add(new StringField(ParsedDocument.Fields.DOC_ID.name(), document.documentId, Field.Store.YES));
-        newDoc.add(new TextField(ParsedDocument.Fields.DOC_BODY.name(), document.body, Field.Store.YES));
-        newDoc.add(new TextField(ParsedDocument.Fields.PRODUCT_NAME.name(), document.productName, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.DOC_URL.name(), document.commentUrl, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.SOURCE.name(), document.source.name(), Field.Store.YES));
+        newDoc.add(new TextField(ParsedDocument.Fields.SEARCHABLE_TEXT.name(),
+                document.fullSearchableText(), Field.Store.YES));
+        newDoc.add(new StringField(ParsedDocument.Fields.DOC_ID.name(),
+                document.documentId, Field.Store.YES));
+        newDoc.add(new StringField(ParsedDocument.Fields.PRODUCT_NAME.name(),
+                document.productName, Field.Store.YES));
+        newDoc.add(new StringField(ParsedDocument.Fields.DOC_BODY.name(),
+                document.body, Field.Store.YES));
+        newDoc.add(new StringField(ParsedDocument.Fields.DOC_URL.name(),
+                document.commentUrl, Field.Store.YES));
+        newDoc.add(new StringField(ParsedDocument.Fields.SOURCE.name(),
+                document.source.name(), Field.Store.YES));
+        try {
+            indexWriter.addDocument(newDoc);
+            indexWriter.commit();
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Could not write new document to the index directory", e);
+        }
+    }
 
+    public Analyzer getAnalyzer() {
+        return enAnalyzer;
+    }
+
+    public void closeIndexWriter() {
+        if (indexWriter != null) {
+            try {
+                indexWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to close indexWriter", e);
+            }
+        }
     }
 
     private EnglishAnalyzer setUpEnAnalyzer() {
         return  new EnglishAnalyzer(getStopWordSet());
-    }
-
-    private Directory getIndexDirectory() {
-        File indexPath = new File(Configuration.getInstance().getIndexDir());
-        if (!indexPath.exists()) {
-            indexPath.mkdirs();
-        }
-
-        try {
-            return FSDirectory.open(indexPath);
-        } catch (IOException e) {
-            throw new RuntimeException("Unbale to find index path: ", e);
-        }
     }
 
     /**
@@ -116,13 +118,5 @@ public class Indexer {
         } catch (IOException e) {
             throw new RuntimeException("Unable to find  Stopwords file: ", e);
         }
-    }
-
-    public static Indexer getIndexer() {
-        return SingletonIndexer.INSTANCE;
-    }
-
-    private static class SingletonIndexer {
-        public static final Indexer INSTANCE = new Indexer();
     }
 }

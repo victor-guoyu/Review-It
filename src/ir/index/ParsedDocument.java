@@ -1,9 +1,12 @@
 package ir.index;
 
+import com.google.common.base.Joiner;
+
 import ir.crawler.Source;
 
 public final class ParsedDocument {
     public static enum Fields {
+        SEARCHABLE_TEXT,
         DOC_ID,
         DOC_BODY,
         PRODUCT_NAME,
@@ -15,6 +18,10 @@ public final class ParsedDocument {
     public final String productName;
     public final String commentUrl;
     public final Source source;
+
+    public String fullSearchableText() {
+        return Joiner.on(" ").join(productName, body);
+    }
 
     private ParsedDocument(Builder builder) {
         documentId = builder.documentId;

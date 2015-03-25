@@ -21,6 +21,7 @@ public final class Configuration {
     private String              indexDir;
     private String              stopWord;
     private int                 stopWordSize;
+    private int                 resultSize;
 
     // AWS configuration
     private String              awsAccessKeyId;
@@ -233,6 +234,20 @@ public final class Configuration {
      */
     public void setStopWordSize(int stopWordSize) {
         this.stopWordSize = stopWordSize;
+    }
+
+    /**
+     * @return the resultSize
+     */
+    public int getResultSize() {
+        return resultSize;
+    }
+
+    /**
+     * @param resultSize the resultSize to set
+     */
+    public void setResultSize(int resultSize) {
+        this.resultSize = resultSize;
     }
 
     @Override
