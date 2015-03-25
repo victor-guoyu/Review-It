@@ -17,7 +17,7 @@ public final class Configuration {
     private List<String>        crawlers;
     private List<String>        wlecomePages;
 
-    //Indexer configuration
+    // Indexer configuration
     private String              indexDir;
     private String              stopWord;
     private int                 stopWordSize;
@@ -34,7 +34,14 @@ public final class Configuration {
     // Over Stock configuration
     private String              overStockUrl;
 
-    private Configuration() {}
+    // Twitter configuration
+    private String              twitterConsumerKey;
+    private String              twitterSecretKey;
+    private String              twitterAccessToken;
+    private String              twitterAccessTokenSecert;
+
+    private Configuration() {
+    }
 
     public static Configuration getInstance() {
         return SingletonConfiguration.INSTANCE;
@@ -53,7 +60,6 @@ public final class Configuration {
         return config;
     }
 
-
     /**
      * @return the serverPort
      */
@@ -62,7 +68,8 @@ public final class Configuration {
     }
 
     /**
-     * @param serverPort the serverPort to set
+     * @param serverPort
+     *            the serverPort to set
      */
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
@@ -76,7 +83,8 @@ public final class Configuration {
     }
 
     /**
-     * @param publicDir the publicDir to set
+     * @param publicDir
+     *            the publicDir to set
      */
     public void setPublicDir(String publicDir) {
         this.publicDir = publicDir;
@@ -90,7 +98,8 @@ public final class Configuration {
     }
 
     /**
-     * @param servlets the servlets to set
+     * @param servlets
+     *            the servlets to set
      */
     public void setServlets(List<ServletConfig> servlets) {
         this.servlets = servlets;
@@ -104,7 +113,8 @@ public final class Configuration {
     }
 
     /**
-     * @param crawlers the crawlers to set
+     * @param crawlers
+     *            the crawlers to set
      */
     public void setCrawlers(List<String> crawlers) {
         this.crawlers = crawlers;
@@ -118,7 +128,8 @@ public final class Configuration {
     }
 
     /**
-     * @param wlecomePages the wlecomePages to set
+     * @param wlecomePages
+     *            the wlecomePages to set
      */
     public void setWlecomePages(List<String> wlecomePages) {
         this.wlecomePages = wlecomePages;
@@ -132,7 +143,8 @@ public final class Configuration {
     }
 
     /**
-     * @param awsAccessKeyId the awsAccessKeyId to set
+     * @param awsAccessKeyId
+     *            the awsAccessKeyId to set
      */
     public void setAwsAccessKeyId(String awsAccessKeyId) {
         this.awsAccessKeyId = awsAccessKeyId;
@@ -146,7 +158,8 @@ public final class Configuration {
     }
 
     /**
-     * @param awsSecretKey the awsSecretKey to set
+     * @param awsSecretKey
+     *            the awsSecretKey to set
      */
     public void setAwsSecretKey(String awsSecretKey) {
         this.awsSecretKey = awsSecretKey;
@@ -160,7 +173,8 @@ public final class Configuration {
     }
 
     /**
-     * @param awsEndPoint the awsEndPoint to set
+     * @param awsEndPoint
+     *            the awsEndPoint to set
      */
     public void setAwsEndPoint(String awsEndPoint) {
         this.awsEndPoint = awsEndPoint;
@@ -174,7 +188,8 @@ public final class Configuration {
     }
 
     /**
-     * @param youtubeApiKey the youtubeApiKey to set
+     * @param youtubeApiKey
+     *            the youtubeApiKey to set
      */
     public void setYoutubeApiKey(String youtubeApiKey) {
         this.youtubeApiKey = youtubeApiKey;
@@ -188,10 +203,70 @@ public final class Configuration {
     }
 
     /**
-     * @param overStockUrl the overStockUrl to set
+     * @param overStockUrl
+     *            the overStockUrl to set
      */
     public void setOverStockUrl(String overStockUrl) {
         this.overStockUrl = overStockUrl;
+    }
+    
+    /**
+     * 
+     * @return twitterAccessTokenSecert
+     */
+    public String getTwitterAccessTokenSecert() {
+        return twitterAccessTokenSecert;
+    }
+
+    /**
+     * 
+     * @param twitterAccessTokenSecert 
+     *              the twitterAccessTokenSecert to set
+     */
+    public void setTwitterAccessTokenSecert(String twitterAccessTokenSecert) {
+        this.twitterAccessTokenSecert = twitterAccessTokenSecert;
+    }
+
+    /**
+     * 
+     * @return twitterAccessToken
+     */
+    public String getTwitterAccessToken() {
+        return twitterAccessToken;
+    }
+
+    /**
+     * 
+     * @param twitterAccessToken
+     *              the twitterAccessToken to set
+     */
+    public void setTwitterAccessToken(String twitterAccessToken) {
+        this.twitterAccessToken = twitterAccessToken;
+    }
+
+    /**
+     * 
+     * @return twitterSecretKey
+     */
+    public String getTwitterSecretKey() {
+        return twitterSecretKey;
+    }
+
+    /**
+     * 
+     * @param twitterSecretKey
+     *              the twitterSecretKey to set
+     */
+    public void setTwitterSecretKey(String twitterSecretKey) {
+        this.twitterSecretKey = twitterSecretKey;
+    }
+
+    public String getTwitterConsumerKey() {
+        return twitterConsumerKey;
+    }
+
+    public void setTwitterConsumerKey(String twitterConsumerKey) {
+        this.twitterConsumerKey = twitterConsumerKey;
     }
 
     /**
@@ -202,7 +277,8 @@ public final class Configuration {
     }
 
     /**
-     * @param indexDir the indexDir to set
+     * @param indexDir
+     *            the indexDir to set
      */
     public void setIndexDir(String indexDir) {
         this.indexDir = indexDir;
@@ -216,7 +292,8 @@ public final class Configuration {
     }
 
     /**
-     * @param stopWord the stopWord to set
+     * @param stopWord
+     *            the stopWord to set
      */
     public void setStopWord(String stopWord) {
         this.stopWord = stopWord;
@@ -230,7 +307,8 @@ public final class Configuration {
     }
 
     /**
-     * @param stopWordSize the stopWordSize to set
+     * @param stopWordSize
+     *            the stopWordSize to set
      */
     public void setStopWordSize(int stopWordSize) {
         this.stopWordSize = stopWordSize;
@@ -256,6 +334,8 @@ public final class Configuration {
                 "Server listening on port: %s serving directory: %s",
                 serverPort, publicDir);
     }
+
+   
 
     private static class SingletonConfiguration {
         private static final Configuration INSTANCE = Configuration

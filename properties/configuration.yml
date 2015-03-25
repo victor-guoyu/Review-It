@@ -24,10 +24,17 @@ youtubeApiKey: AIzaSyBQXg30E9SWTTl8xFjFJoayFYDJyjc_JGk
 # OverStock Query Url
 overStockUrl: http://www.overstock.com/search?keywords=%s
 
+# Twitter params
+twitterConsumerKey: xtrOvOmrFzg4CWIpkhkP6PkNL
+twitterSecretKey: cCzpYkApxMvN44y1MvAs7pq6qOSZoGXsqHIUOZcWeOsjf8jmBJ
+twitterAccessToken: 279284725-NhVkm1HC4BTjK2WY31eK1h77uKxIA4bXvw3G2tPO
+twitterAccessTokenSecert: UdBKLwXwfmjEKo5gruOd0IleR6La79G96VGgU9jFgLKFi
+
 # Crawlers
 crawlers:
   - ir.crawler.amazon.AWSCrawler
   - ir.crawler.youtube.YouTubeCrawler
+  - ir.crawler.twitter.TwitterCrawler
 
 # Servlets
 servlets:

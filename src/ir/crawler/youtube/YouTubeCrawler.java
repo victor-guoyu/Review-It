@@ -115,7 +115,7 @@ public class YouTubeCrawler implements Crawler{
                         + singleVideo.getSnippet().getTitle());
                 System.out.println(" Publish at: "
                         + singleVideo.getSnippet().getPublishedAt().toString());
-                logger.info("<iframe width='420' height='315' src='https://www.youtube.com/embed/"
+                logger.info("<iframe src='https://www.youtube.com/embed/"
                         + rId.getVideoId()
                         + "' frameborder'0' allowfullscreen></iframe>");
                 System.out
