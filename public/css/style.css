@@ -21,25 +21,66 @@ h3 {
     max-width: 100%;
     height: auto;
 }*/
-.youtube-style, .twitter-style {
+
+.youtube-style {
     width: 100%;
     height: -moz-calc((100vh - 2.8125rem - 10px)/2);
     height: -webkit-calc((100vh - 2.8125rem - 10px)/2);
     height: -o-calc((100vh - 2.8125rem - 10px)/2);
     height: calc((100vh - 2.8125rem - 10px)/2);
 }
+/*Twitter style*/
+
+.t-body {
+    width: 100%;
+    height: -moz-calc((100vh - 2.8125rem - 10px)/2 - 40px);
+    height: -webkit-calc((100vh - 2.8125rem - 10px)/2 - 40px);
+    height: -o-calc((100vh - 2.8125rem - 10px)/2 - 40px);
+    height: calc((100vh - 2.8125rem - 10px)/2 - 40px);
+    overflow: scroll;
+}
+.t-avanta {
+    border-radius: 5px;
+}
+.t-nickname, .t-nickname:hover, .t-nickname:active, .t-nickname:visited, .t-nickname:focus {
+    font-size: 13px;
+    color: #707070;
+    margin-bottom: 0px;
+}
+.t-time {
+    font-size: 12px;
+    color: #707070;
+    margin-bottom: 0px;
+}
+.t-content {
+    font: normal normal normal 12px/16px "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+}
+.t-title, .t-title:hover, .t-title:active, .t-title:visited, .t-title:focus {
+    color: #292f33;
+    font: normal normal normal 12px/16px "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+.t-border {
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+}
+.t-header {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 5px;
+}
 /*.title-area{
-	padding-left: 6px;
+    padding-left: 6px;
 }
 .right{
-	padding-right: 6px;
+    padding-right: 6px;
 }*/
 
 .height-fill-screen {
     /*height: -moz-calc(100% - 2.8125rem);
 height: -webkit-calc(100% - 2.8125rem);
 height: -o-calc(100% - 2.8125rem);
-	height: calc(100% - 2.8125rem);*/
+    height: calc(100% - 2.8125rem);*/
     
     height: 100%;
     /*overflow: hidden;*/
@@ -89,7 +130,7 @@ height: -o-calc(100% - 2.8125rem);
     background: 0;
 }
 .full-width {
-    width: 100%;
+    width: 100% !important;
 }
 .text-right {
     text-align: right;
@@ -117,6 +158,9 @@ height: -o-calc(100% - 2.8125rem);
 }
 .margin-20-10 {
     margin: 20px 10px;
+}
+.margin-0 {
+    margin: 0px;
 }
 .padding-10-20 {
     padding: 10px 20px;
@@ -165,4 +209,24 @@ height: -o-calc(100% - 2.8125rem);
 }
 .size-72 {
     font-size: 72px;
+}
+/*404.html stylee*/
+
+.center-top-bar {
+    float: none !important;
+}
+.warning-font{
+    color: #81b9cb;
+}
+.font-bold{
+    font-weight: bold;
+}
+.error-code{
+    color: #8B8C8D;
+}
+.height-20vh{
+    height: 20vh;
+}
+.height-40{
+    height: 40px;
 }
