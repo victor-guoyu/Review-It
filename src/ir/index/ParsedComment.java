@@ -31,6 +31,13 @@ public final class ParsedComment {
         source = builder.source;
     }
 
+    @Override
+    public String toString() {
+        return String
+                .format("[id = %s, comment = %s, productName = %s, url = %s, source = %s]",
+                        id, comment, productName, commentUrl, source);
+    }
+
     public static class Builder {
         private final String id;
         private final Source source;

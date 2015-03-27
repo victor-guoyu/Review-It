@@ -15,14 +15,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class OverstockCrawler extends Crawler{
     private Logger logger;
-    private static final String PRODUCT_LINK_SELECTOR = "#result-products > li > div > a.reviewcountlink";
-    private static final String PRODUCT_TITLE_SELCTOR = "head > title";
-    private static final String PRODUCT_COMMENT_SELCTOR = "head > title";
+    private static final String PRODUCT_LINK_SELECTOR   = "#result-products > li > div > a.reviewcountlink";
+    private static final String PRODUCT_TITLE_SELCTOR   = "head > title";
+    private static final String PRODUCT_COMMENT_SELCTOR = "[id*=reviewText] > p";
 
     @Override
     public void fetch(List<String> queries) {
@@ -50,11 +49,13 @@ public class OverstockCrawler extends Crawler{
         if (!productUrls.isEmpty()) {
             List<ParsedComment> parsedList = new ArrayList<>();
             // generate all the list
-            for (String productUrl : productUrls) {
-                List<ParsedComment> pl = parse(productUrl);
-                parsedList.addAll(pl);
+            productUrls.stream().forEach((url) ->{
+                List<ParsedComment> comment = parse(url);
+                parsedList.addAll(comment);
+            });
+            if (!parsedList.isEmpty()) {
+                SearchEngine.getSearchEngine().indexDocuments(parsedList);
             }
-            SearchEngine.getSearchEngine().indexDocuments(parsedList);
         }
     }
 
@@ -63,17 +64,17 @@ public class OverstockCrawler extends Crawler{
         List<ParsedComment> parsedList = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(productUrl).get();
-            Elements CommentElement = doc.select(PRODUCT_COMMENT_SELCTOR);
+            Elements CommentElements = doc.select(PRODUCT_COMMENT_SELCTOR);
             String ProductTitle = getProductTitle(doc);
 
-            for (Element comment : CommentElement) {
+            CommentElements.stream().forEach((comment) -> {
                 parsedList.add(new ParsedComment
                         .Builder(UUIDgenerator.get(), Source.OVERSTOCK)
                         .productName(ProductTitle)
                         .comment(comment.html())
                         .commentUrl(productUrl)
                         .build());
-            }
+            });
         } catch (IOException e) {
             logger.error("Unable to retrieve product url: %s", productUrl);
         }
