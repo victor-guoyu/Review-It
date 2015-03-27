@@ -4,47 +4,47 @@ import com.google.common.base.Joiner;
 
 import ir.crawler.Source;
 
-public final class ParsedDocument {
+public final class ParsedComment {
     public static enum Fields {
         SEARCHABLE_TEXT,
-        DOC_ID,
-        DOC_BODY,
+        ID,
+        COMMENT,
         PRODUCT_NAME,
-        DOC_URL,
+        URL,
         SOURCE
     }
-    public final String documentId;
-    public final String body;
+    public final String id;
+    public final String comment;
     public final String productName;
     public final String commentUrl;
     public final Source source;
 
     public String fullSearchableText() {
-        return Joiner.on(" ").join(productName, body);
+        return Joiner.on(" ").join(productName, comment);
     }
 
-    private ParsedDocument(Builder builder) {
-        documentId = builder.documentId;
-        body = builder.body;
+    private ParsedComment(Builder builder) {
+        id = builder.id;
+        comment = builder.comment;
         productName = builder.productName;
         commentUrl = builder.commentUrl;
         source = builder.source;
     }
 
     public static class Builder {
-        private final String documentId;
+        private final String id;
         private final Source source;
-        private String       body        = "";
+        private String       comment        = "";
         private String       productName = "";
         private String       commentUrl  = "";
 
-        public Builder(String documentId, Source source) {
-            this.documentId = documentId;
+        public Builder(String id, Source source) {
+            this.id = id;
             this.source = source;
         }
 
         public Builder comment(String val) {
-            body = val;
+            comment = val;
             return this;
         }
 
@@ -58,8 +58,8 @@ public final class ParsedDocument {
             return this;
         }
 
-        public ParsedDocument build() {
-            return new ParsedDocument(this);
+        public ParsedComment build() {
+            return new ParsedComment(this);
         }
     }
 }

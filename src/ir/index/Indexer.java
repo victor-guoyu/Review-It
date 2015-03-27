@@ -34,21 +34,21 @@ public class Indexer {
         indexWriter = getIndexWriter();
     }
 
-    public void indexParsedDocument(ParsedDocument document) {
+    public void indexParsedDocument(ParsedComment document) {
         Preconditions.checkNotNull(indexWriter,
                 "The index writer is not initialized");
         Document newDoc = new Document();
-        newDoc.add(new TextField(ParsedDocument.Fields.SEARCHABLE_TEXT.name(),
+        newDoc.add(new TextField(ParsedComment.Fields.SEARCHABLE_TEXT.name(),
                 document.fullSearchableText(), Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.DOC_ID.name(),
-                document.documentId, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.PRODUCT_NAME.name(),
+        newDoc.add(new StringField(ParsedComment.Fields.ID.name(),
+                document.id, Field.Store.YES));
+        newDoc.add(new StringField(ParsedComment.Fields.PRODUCT_NAME.name(),
                 document.productName, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.DOC_BODY.name(),
-                document.body, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.DOC_URL.name(),
+        newDoc.add(new StringField(ParsedComment.Fields.COMMENT.name(),
+                document.comment, Field.Store.YES));
+        newDoc.add(new StringField(ParsedComment.Fields.URL.name(),
                 document.commentUrl, Field.Store.YES));
-        newDoc.add(new StringField(ParsedDocument.Fields.SOURCE.name(),
+        newDoc.add(new StringField(ParsedComment.Fields.SOURCE.name(),
                 document.source.name(), Field.Store.YES));
         try {
             indexWriter.addDocument(newDoc);

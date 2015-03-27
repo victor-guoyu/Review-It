@@ -33,7 +33,7 @@ public class SearchEngine {
         indexDir = getIndexDirectory();
         indexer = new Indexer(indexDir);
         queryParser = new QueryParser(
-                ParsedDocument.Fields.SEARCHABLE_TEXT.name(),
+                ParsedComment.Fields.SEARCHABLE_TEXT.name(),
                 indexer.getAnalyzer());
         try {
             searcher = new IndexSearcher(DirectoryReader.open(indexDir));
@@ -42,7 +42,7 @@ public class SearchEngine {
         }
     }
 
-    public List<ParsedDocument> search(String userQuery) {
+    public List<ParsedComment> search(String userQuery) {
         Query query = parseUserQuery(userQuery);
         TopScoreDocCollector docCollector = TopScoreDocCollector.create(
                 Configuration.getInstance().getResultSize(), true);
@@ -55,13 +55,19 @@ public class SearchEngine {
         return  parseScoreDocsToList(docCollector.topDocs().scoreDocs);
     }
 
-    public List<ParsedDocument> parseScoreDocsToList(ScoreDoc[] scoreDocs) {
+    public void indexDocuments(List<ParsedComment> newDocs) {
+        newDocs.stream().forEach((doc) -> {
+            indexer.indexParsedDocument(doc);
+        });
+    }
+
+    public List<ParsedComment> parseScoreDocsToList(ScoreDoc[] scoreDocs) {
         List<ScoreDoc> scoreDocsList = Arrays.asList(scoreDocs);
-        Iterable<ParsedDocument> parsedDocList = Iterables.transform(scoreDocsList,
-                new Function<ScoreDoc, ParsedDocument>() {
+        Iterable<ParsedComment> parsedDocList = Iterables.transform(scoreDocsList,
+                new Function<ScoreDoc, ParsedComment>() {
 
                 @Override
-                public ParsedDocument apply(ScoreDoc scoreDoc) {
+                public ParsedComment apply(ScoreDoc scoreDoc) {
                     Document hitDoc = null;
                     try {
                         hitDoc = searcher.doc(scoreDoc.doc);
@@ -69,12 +75,12 @@ public class SearchEngine {
                         throw new RuntimeException(String.format(
                                 "Unable to locate hit doc #%s", scoreDoc.doc), e);
                     }
-                    return new ParsedDocument
-                                .Builder(hitDoc.get(ParsedDocument.Fields.DOC_ID.name()),
-                                        Source.valueOf(hitDoc.get(ParsedDocument.Fields.SOURCE.name())))
-                                .productName(hitDoc.get(ParsedDocument.Fields.PRODUCT_NAME.name()))
-                                .comment(hitDoc.get(ParsedDocument.Fields.DOC_BODY.name()))
-                                .commentUrl(hitDoc.get(ParsedDocument.Fields.DOC_URL.name()))
+                    return new ParsedComment
+                                .Builder(hitDoc.get(ParsedComment.Fields.ID.name()),
+                                        Source.valueOf(hitDoc.get(ParsedComment.Fields.SOURCE.name())))
+                                .productName(hitDoc.get(ParsedComment.Fields.PRODUCT_NAME.name()))
+                                .comment(hitDoc.get(ParsedComment.Fields.COMMENT.name()))
+                                .commentUrl(hitDoc.get(ParsedComment.Fields.URL.name()))
                                 .build();
                 }
             });
