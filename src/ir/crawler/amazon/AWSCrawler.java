@@ -28,7 +28,7 @@ import static ir.crawler.amazon.AWSRequestFileds.*;
  *         html
  */
 
-public class AWSCrawler implements Crawler {
+public class AWSCrawler extends Crawler {
     private Logger               logger;
     private SignedRequestsHelper helper;
     private String[]             pageLinksToVisit;

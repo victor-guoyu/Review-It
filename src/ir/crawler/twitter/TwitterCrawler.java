@@ -7,7 +7,7 @@ import ir.crawler.Crawler;
 
 import java.util.List;
 
-public class TwitterCrawler implements Crawler {
+public class TwitterCrawler extends Crawler {
     @Override
     public void fetch(List<String> queries) {
         // TODO Auto-generated method stub
@@ -41,7 +41,7 @@ public class TwitterCrawler implements Crawler {
         String TWITTER_ACCESS_TOKEN        = Configuration.getInstance().getTwitterAccessToken();
         String TWITTER_ACCESS_TOKEN_SECRET = Configuration.getInstance().getTwitterAccessTokenSecert();
 
-        
+
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY)
                 .setOAuthConsumerSecret(TWITTER_SECRET_KEY)

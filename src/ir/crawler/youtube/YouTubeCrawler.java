@@ -19,7 +19,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class YouTubeCrawler implements Crawler{
+public class YouTubeCrawler extends Crawler{
     private static final long NUMBER_OF_VIDEOS_RETURNED = 1;
 
     /**
