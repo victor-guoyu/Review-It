@@ -50,15 +50,14 @@ public class OverstockCrawler extends Crawler{
             List<ParsedComment> parsedList = new ArrayList<>();
             // generate all the list
             productUrls.stream().forEach((url) ->{
-                List<ParsedComment> comment = parse(url);
-                parsedList.addAll(comment);
+                List<ParsedComment> comments = parse(url);
+                parsedList.addAll(comments);
             });
             if (!parsedList.isEmpty()) {
                 SearchEngine.getSearchEngine().indexDocuments(parsedList);
             }
         }
     }
-
 
     private List<ParsedComment> parse(String productUrl) {
         List<ParsedComment> parsedList = new ArrayList<>();

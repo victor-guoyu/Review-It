@@ -15,6 +15,7 @@ public final class Configuration {
     private String              publicDir;
     private List<ServletConfig> servlets;
     private List<String>        crawlers;
+    private List<RTCConfig>     realTimeCrawlers;
     private List<String>        wlecomePages;
 
     // Indexer configuration
@@ -121,6 +122,20 @@ public final class Configuration {
     }
 
     /**
+     * @return the realTimeCrawlers
+     */
+    public List<RTCConfig> getRealTimeCrawlers() {
+        return realTimeCrawlers;
+    }
+
+    /**
+     * @param realTimeCrawlers the realTimeCrawlers to set
+     */
+    public void setRealTimeCrawlers(List<RTCConfig> realTimeCrawlers) {
+        this.realTimeCrawlers = realTimeCrawlers;
+    }
+
+    /**
      * @return the wlecomePages
      */
     public List<String> getWlecomePages() {
@@ -209,9 +224,9 @@ public final class Configuration {
     public void setOverStockUrl(String overStockUrl) {
         this.overStockUrl = overStockUrl;
     }
-    
+
     /**
-     * 
+     *
      * @return twitterAccessTokenSecert
      */
     public String getTwitterAccessTokenSecert() {
@@ -219,8 +234,8 @@ public final class Configuration {
     }
 
     /**
-     * 
-     * @param twitterAccessTokenSecert 
+     *
+     * @param twitterAccessTokenSecert
      *              the twitterAccessTokenSecert to set
      */
     public void setTwitterAccessTokenSecert(String twitterAccessTokenSecert) {
@@ -228,7 +243,7 @@ public final class Configuration {
     }
 
     /**
-     * 
+     *
      * @return twitterAccessToken
      */
     public String getTwitterAccessToken() {
@@ -236,7 +251,7 @@ public final class Configuration {
     }
 
     /**
-     * 
+     *
      * @param twitterAccessToken
      *              the twitterAccessToken to set
      */
@@ -245,7 +260,7 @@ public final class Configuration {
     }
 
     /**
-     * 
+     *
      * @return twitterSecretKey
      */
     public String getTwitterSecretKey() {
@@ -253,7 +268,7 @@ public final class Configuration {
     }
 
     /**
-     * 
+     *
      * @param twitterSecretKey
      *              the twitterSecretKey to set
      */
@@ -335,7 +350,7 @@ public final class Configuration {
                 serverPort, publicDir);
     }
 
-   
+
 
     private static class SingletonConfiguration {
         private static final Configuration INSTANCE = Configuration

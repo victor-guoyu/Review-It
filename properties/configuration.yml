@@ -33,8 +33,14 @@ twitterAccessTokenSecert: UdBKLwXwfmjEKo5gruOd0IleR6La79G96VGgU9jFgLKFi
 # Crawlers
 crawlers:
   - ir.crawler.amazon.AWSCrawler
-  - ir.crawler.youtube.YouTubeCrawler
-  - ir.crawler.twitter.TwitterCrawler
+  - ir.crawler.overstock.OverstockCrawler
+
+# Real-time
+realTimeCrawlers:
+  - className: ir.crawler.youtube.YouTubeCrawler
+    type: YOUTUBE
+  - className: ir.crawler.twitter.TwitterCrawler
+    type: TWITTER
 
 # Servlets
 servlets:

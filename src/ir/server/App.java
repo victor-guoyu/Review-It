@@ -14,23 +14,23 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import ir.config.Configuration;
 import ir.config.ServletConfig;
-import ir.crawler.Crawler;
 import ir.crawler.TrainingData;
+import ir.index.SearchEngine;
 
 public class App {
     private final Server  server;
     private final Logger  mainLog;
-    private List<Crawler> crawlers;
     private Configuration config;
+    private SearchEngine  searchEngine;
 
     private App() {
         startServerLogger();
         mainLog = LogManager.getLogger(App.class);
+        searchEngine = SearchEngine.getSearchEngine();
         config = Configuration.getInstance();
         Optional<Integer> port = Optional.of(config.getServerPort());
         server = new Server(port.filter(p -> p != 0)
@@ -45,10 +45,9 @@ public class App {
 
     public void start() throws Exception {
         Version.upSince = new Date();
-        crawlers = initializeCrawlers();
         // Build the initial data set before
         // the user can retrieve from the server
-        retriveData(TrainingData.INSTANCE.getTraingQueries());
+        searchEngine.retriveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
         server.start();
         server.join();
@@ -63,29 +62,6 @@ public class App {
             System.setProperty(ServerConstants.LOGGER_SYSTEM_PROPERTY,
                     loggerConfig);
         }
-    }
-
-    /**
-     * Load and initialize all the crawlers
-     */
-    private List<Crawler> initializeCrawlers() {
-        Iterable<Crawler> crawlers = Iterables.transform(config.getCrawlers(),
-                new Function<String, Crawler>() {
-
-                    @Override
-                    public Crawler apply(String className) {
-                        Crawler crawler = null;
-                        try {
-                            crawler = (Crawler) Class.forName(className)
-                                    .newInstance();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return crawler;
-                    }
-                });
-
-        return ImmutableList.copyOf(crawlers);
     }
 
     /**
@@ -138,17 +114,6 @@ public class App {
         ctx.setWelcomeFiles(wp.toArray(new String[wp.size()]));
         ctx.setResourceBase(config.getPublicDir());
         return ctx;
-    }
-
-    /**
-     * @param List of product name queries
-     *        Lucene will index all the data being retrieved
-     */
-    public void retriveData(List<String> queries) {
-        crawlers.stream()
-        .forEach((crawler) -> {
-            crawler.fetch(queries);
-        });
     }
 
     public static void main(String[] args) {
