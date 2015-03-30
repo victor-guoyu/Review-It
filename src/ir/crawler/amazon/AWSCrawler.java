@@ -13,11 +13,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 
 import ir.config.Configuration;
 import ir.crawler.Crawler;
+import ir.index.ParsedComment;
 import static ir.crawler.amazon.AWSRequestFileds.*;
 
 /**
@@ -29,41 +31,49 @@ import static ir.crawler.amazon.AWSRequestFileds.*;
  */
 
 public class AWSCrawler extends Crawler {
+    private static final int     MAX_PAGE_NUM = 10;
+    private Configuration        config;
     private Logger               logger;
     private SignedRequestsHelper helper;
     private String[]             pageLinksToVisit;
-    private HashMap<String, String> titleToReviews;
 
     @Override
     public void fetch(List<String> queries) {
-        // TODO Auto-generated method stub
-        System.out.println("Amazon crawler called");
-
+        if (!isInitialized()) {
+            init();
+        }
+        queries.stream().forEach((query) -> {
+               retrieveContent(query);
+        });
     }
 
-    public void init() throws Exception {
+    public void init()  {
+        config = Configuration.getInstance();
         logger = LogManager.getLogger(AWSCrawler.class);
-        helper = SignedRequestsHelper
-                .getInstance(
-                        Configuration.getInstance().getAwsEndPoint(),
-                        Configuration.getInstance().getAwsAccessKeyId(),
-                        Configuration.getInstance().getAwsSecretKey());
+        try {
+            helper = SignedRequestsHelper
+                    .getInstance(
+                            config.getAwsEndPoint(),
+                            config.getAwsAccessKeyId(),
+                            config.getAwsSecretKey());
+        } catch (Exception e) {
+            throw new RuntimeException("AWSCrawler: unable to create helper", e);
+        }
+    }
+
+    private void retrieveContent(String query) {
         pageLinksToVisit = createURLs();
+        List<ParsedComment> comments = Lists.newLinkedList();
         for (String link : pageLinksToVisit) {
-            titleToReviews = retrieveTitleToReviews(link);
-            for(Entry<String, String> entry : titleToReviews.entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println(entry.getValue());
-            }
+           List<ParsedComment>  pageComments = retrievePageComments(link);
         }
     }
 
     /**
      * Create the URLs
-     * TODO max to retrieve 10 pages
      */
     private String [] createURLs() {
-        String[] linksToVisit = new String [10];
+        String[] linksToVisit = new String [MAX_PAGE_NUM];
 
         HashMap<String, String> params = Maps.newHashMap();
         params.put(PARAM_KEY_ASSOCIATETAG, "com0fd-20");
@@ -73,39 +83,37 @@ public class AWSCrawler extends Crawler {
         params.put(PARAM_KEY_KEYWORDS, "macbook");
         params.put(PARAM_KEY_INCLUDEREVIEWS, PARAM_VALUE_INCLUDEREVIEWS);
 
-        for(int i=0; i< linksToVisit.length; i++) {
+        for(int i=0; i< MAX_PAGE_NUM; i++) {
             params.put(PARAM_KEY_ITEMPAGE, String.valueOf(i+1));
             linksToVisit[i] = helper.sign(params);
         }
         return linksToVisit;
     }
 
-    private HashMap<String, String> retrieveTitleToReviews(String url) throws IOException {
-        Document page = null;
-        HashMap<String, String> titleToReviews = Maps.newHashMap();
+    private List<ParsedComment> retrievePageComments(String url) {
         try {
-            page = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            return titleToReviews;
-        }
-        Elements items = page.getElementsByTag(ITEM_TAG);
-        Iterator<Element> itemsIterator = items.iterator();
-        Elements errors = page.getElementsByTag(ERROR_TAG);
-        while (itemsIterator.hasNext() && errors.isEmpty()) {
-            Element item = itemsIterator.next();
-            String title = item.getElementsByTag(TITLE_TAG).get(FIRST_ELEMENT).text();
-            for (Element itemLink : item.getElementsByTag(ITEMLINK_TAG)) {
-                if (itemLink.getElementsByTag(DESCRIPTION_TAG).get(FIRST_ELEMENT).text()
-                        .contains("Customer Reviews")) {
-                    titleToReviews.put(title, itemLink.getElementsByTag(URL_TAG)
-                            .get(FIRST_ELEMENT).text());
+            Document page = Jsoup.connect(url).get();
+            List<ParsedComment> pageComment = Lists.newLinkedList();
+            Elements items = page.getElementsByTag(ITEM_TAG);
+            Iterator<Element> itemsIterator = items.iterator();
+            Elements errors = page.getElementsByTag(ERROR_TAG);
+            while (itemsIterator.hasNext() && errors.isEmpty()) {
+                Element item = itemsIterator.next();
+                String title = item.getElementsByTag(TITLE_TAG).get(FIRST_ELEMENT).text();
+                for (Element itemLink : item.getElementsByTag(ITEMLINK_TAG)) {
+                    if (itemLink.getElementsByTag(DESCRIPTION_TAG).get(FIRST_ELEMENT).text()
+                            .contains("Customer Reviews")) {
+                        titleToReviews.put(title, itemLink.getElementsByTag(URL_TAG)
+                                .get(FIRST_ELEMENT).text());
+                    }
                 }
             }
+        } catch (IOException e) {
+
         }
-        return titleToReviews;
     }
 
-    private void retriveReviews(org.jsoup.nodes.Document doc) {
+    private void retriveReviews(Document doc) {
         Elements reviewList = doc.select("div.reviewText");
         for (int i = 0; i < reviewList.size(); i++) {
             String msg = reviewList.get(i).html();
@@ -120,7 +128,7 @@ public class AWSCrawler extends Crawler {
      * @throws Exception
      */
     private void RetriveCustomerReview(String ReviewURL) throws Exception {
-        org.jsoup.nodes.Document doc = Jsoup.connect(ReviewURL).get();
+        Document doc = Jsoup.connect(ReviewURL).get();
 
         // retrive the reference to the page url
         Elements reviewpageURLList = Jsoup.connect(ReviewURL).get()
