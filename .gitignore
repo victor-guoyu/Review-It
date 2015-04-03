@@ -1,6 +1,7 @@
 bin
+out
 logs
-dist/*
+dist
 index
 .idea
 *.iml
