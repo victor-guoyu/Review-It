@@ -1,6 +1,8 @@
-bin/*
-logs/*
-/bin/
+bin
+logs
 dist/*
-index/*
+index
+.idea
+*.iml
+*.eml
 .DS_Store
