@@ -11,6 +11,7 @@ import ir.utils.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,16 @@ public class SearchEngine {
         .forEach((crawler) -> {
             crawler.fetch(queries);
         });
+    }
+
+    /**
+     *Crawlers will retrieve and index comments in the system
+     * @param query - product name queries
+     */
+    public void retriveData(String query) {
+        List<String> queryList = new ArrayList<>(1);
+        queryList.add(query);
+        retriveData(queryList);
     }
 
     public List<ParsedComment> parseScoreDocsToList(ScoreDoc[] scoreDocs) {
