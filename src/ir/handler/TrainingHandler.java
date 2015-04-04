@@ -10,10 +10,9 @@ import ir.index.SearchEngine;
 
 import java.util.Map;
 
-public class TrainingHandler implements RequestHandler{
+import static ir.handler.HandlerConstant.*;
 
-    protected static final String TRAINING = "training";
-    protected static final String SEARCH_TEXT = "text";
+public class TrainingHandler implements RequestHandler{
 
     @Override
     public String[] handledRequests() {

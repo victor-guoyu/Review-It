@@ -12,10 +12,10 @@ import ir.index.SearchEngine;
 import java.util.List;
 import java.util.Map;
 
+import static ir.handler.HandlerConstant.*;
+
 public class SearchTextHandler implements RequestHandler{
 
-    protected static final String COMMENT_SEARCH = "commentSearch";
-    protected static final String SEARCH_TEXT = "text";
     @Override
     public String[] handledRequests() {
         return new String[]{COMMENT_SEARCH};

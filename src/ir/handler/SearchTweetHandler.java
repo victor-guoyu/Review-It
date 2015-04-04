@@ -12,10 +12,9 @@ import ir.index.SearchEngine;
 import java.util.List;
 import java.util.Map;
 
-public class SearchTweetHandler implements RequestHandler {
+import static ir.handler.HandlerConstant.*;
 
-    protected static final String TWEET_SEARCH = "tweetSearch";
-    protected static final String SEARCH_TEXT = "text";
+public class SearchTweetHandler implements RequestHandler {
 
     @Override
     public String[] handledRequests() {

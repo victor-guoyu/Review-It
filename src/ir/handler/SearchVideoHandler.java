@@ -11,9 +11,9 @@ import ir.index.SearchEngine;
 
 import java.util.Map;
 
+import static ir.handler.HandlerConstant.*;
+
 public class SearchVideoHandler implements RequestHandler{
-    protected static final String VIDEO_SEARCH = "videoSearch";
-    protected static final String SEARCH_TEXT = "text";
 
     @Override
     public String[] handledRequests() {

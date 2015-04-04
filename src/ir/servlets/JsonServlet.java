@@ -6,14 +6,12 @@ import com.google.common.collect.Range;
 import com.google.common.primitives.Ints;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2ParseException;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
-import net.minidev.json.JSONObject;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class JsonServlet extends HttpServlet {
@@ -54,26 +52,18 @@ public class JsonServlet extends HttpServlet {
     }
 
     /**
-     * Render JSON response
-     * @param requestId RPC ID
-     * @param message Server message
-     * @param result int indicate whether or not the request is successful
-     * @param returnParams list of return results
-     * @return Server response in JSON
+     * Send server reply back to client
+     * @param response
+     * @param replyBytes
+     * @throws IOException
      */
-    protected JSONObject renderResponse(String requestId, String message, int result, HashMap<String, String> returnParams) {
-        JSONObject reply = new JSONObject();
-        reply.put("jsonrpc", "2.0");
-        reply.put("result", result);
-        reply.put("message", message);
-        reply.put("id", requestId);
-        if (result == 1 && returnParams != null && returnParams.size()>0) {
-            JSONObject params = new JSONObject();
-            for (Map.Entry<String, String> entry : returnParams.entrySet()) {
-                params.put(entry.getKey(), entry.getValue());
-            }
-            reply.put("params", params);
-        }
-        return reply;
+    protected void sendResponse(HttpServletResponse response, byte[] replyBytes) throws IOException {
+        response.setHeader("Connection", "close");
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentLength(replyBytes.length);
+        response.getOutputStream().write(replyBytes);
+        response.getOutputStream().close();
+        response.getOutputStream().flush();
     }
 }

@@ -1,6 +1,7 @@
 package ir.servlets;
 
 import com.google.common.base.Charsets;
+import com.thetransactioncompany.jsonrpc2.JSONRPC2ParseException;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
 import com.thetransactioncompany.jsonrpc2.server.Dispatcher;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class Search extends JsonServlet implements AppServlet{
     /**
@@ -36,16 +38,13 @@ public class Search extends JsonServlet implements AppServlet{
             JSONRPC2Request jsonRequest = parseJsonRequest(request);
             JSONRPC2Response jsonResponse = searchDispatcher.process(jsonRequest, null);
             byte[] replyBytes = jsonResponse.toString().getBytes(Charsets.UTF_8);
-            response.setHeader("Connection", "close");
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentLength(replyBytes.length);
-            response.getOutputStream().write(replyBytes);
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-        } catch (Exception e) {
+            sendResponse(response, replyBytes);
+        } catch (IOException e) {
             e.printStackTrace();
-            logger.error("Unable to parse the user request");
+            logger.error("Unable to send JSON response to user");
+        } catch (JSONRPC2ParseException e) {
+            e.printStackTrace();
+            logger.error("Unable to parse user JSON request");
         }
     }
 }
