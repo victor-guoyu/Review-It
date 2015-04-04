@@ -70,5 +70,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jsonrpc2-server-1.11-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/json-smart-1.2.jar"/>
 	<classpathentry kind="output" path="out/production/HonoursProject"/>
 </classpath>
