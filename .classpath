@@ -60,5 +60,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/twitter4j-core-4.0.2.jar"/>
+	<classpathentry kind="lib" path="libs/jsonrpc2-base-1.38.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jsonrpc2-base-1.38-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/jsonrpc2-server-1.11.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/HonoursProject/javadoc/jsonrpc2-server-1.11-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="out/production/HonoursProject"/>
 </classpath>
