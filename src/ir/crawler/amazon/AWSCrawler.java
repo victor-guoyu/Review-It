@@ -33,7 +33,8 @@ import static ir.crawler.amazon.AWSRequestFileds.*;
  */
 
 public class AWSCrawler extends Crawler {
-    private static final int     MAX_PAGE_NUM = 1;
+    private static final int     MAX_PAGE_NUM   = 1;
+    private static final int     MAX_RATING_NUM = 5;
     private Configuration        config;
     private Logger               logger;
     private SignedRequestsHelper helper;
@@ -114,7 +115,7 @@ public class AWSCrawler extends Crawler {
                             .get(FIRST_ELEMENT).text()
                             .contains("Customer Reviews")) {
 
-                        pageComment.addAll(RetriveCustomerReview(
+                        pageComment.addAll(RetriveParsedCustomerReview(
                                 title,
                                 itemLink.getElementsByTag(URL_TAG)
                                         .get(FIRST_ELEMENT).text()));
@@ -129,14 +130,19 @@ public class AWSCrawler extends Crawler {
 
     }
 
-    private List<String> retriveReviews(String pagingUrl) {
-        List<String> commentlist = Lists.newLinkedList();
+    private List<List<String>> retriveReviews(String pagingUrl) {
+        List<List<String>> commentlist = Lists.newLinkedList();
         try {
             Document doc = Jsoup.connect(pagingUrl).get();
             Elements reviewList = doc.select("span.review-text");
             for (int i = 0; i < reviewList.size(); i++) {
-                String msg = reviewList.get(i).html();
-                commentlist.add(msg);
+                Element ratingElement = reviewList.get(i);
+                String comment = ratingElement.html();
+                String Label = getLabel(ratingElement);
+                List<String> commentNode = Lists.newLinkedList();
+                commentNode.add(comment);
+                commentNode.add(Label);
+                commentlist.add(commentNode);
             }
 
         } catch (IOException e) {
@@ -148,13 +154,25 @@ public class AWSCrawler extends Crawler {
     }
 
     /**
+     * 
+     * @param elem
+     *            the rating element to analysis
+     * @return the positive/negative...
+     */
+    private String getLabel(Element elem) {
+        Elements ratedNode = elem.parent().parent().select(".a-icon-alt");
+        int rate = Ints.tryParse(ratedNode.html());
+        return setLabel(rate, MAX_RATING_NUM);
+    }
+
+    /**
      *
      * @param ReviewURL
      *            : The URL that need to be extracted
      * @throws Exception
      */
-    private List<ParsedComment> RetriveCustomerReview(String productTitle,
-            String ReviewURL) {
+    private List<ParsedComment> RetriveParsedCustomerReview(
+            String productTitle, String ReviewURL) {
         Document doc;
         List<ParsedComment> Comments = Lists.newLinkedList();
         try {
@@ -184,12 +202,14 @@ public class AWSCrawler extends Crawler {
                             + CommonPagingURL.replace("?ie=UTF8",
                                     "/ref=cm_cr_pr_btm_link_" + i).replace(
                                     "pageNumber=" + num, "pageNumber=" + i);
-                    List<String> commentlist = retriveReviews(pagingURL);
-                    for (String comment : commentlist) {
+                    List<List<String>> commentlist = retriveReviews(pagingURL);
+                    for (List<String> commentNode : commentlist) {
                         Comments.add(new ParsedComment.Builder(UUIDgenerator
                                 .get(), Source.AMAZON)
-                                .productName(productTitle).comment(comment)
-                                .commentUrl(pagingURL).build());
+                                .productName(productTitle)
+                                .comment(commentNode.get(0))
+                                .commentUrl(pagingURL)
+                                .commentLabel(commentNode.get(1)).build());
                     }
                 }
             }
