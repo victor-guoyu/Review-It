@@ -87,7 +87,7 @@ public class Indexer {
         try {
             return new IndexWriter(indexDir, config);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to find  Stopwords file: ", e);
+            throw new RuntimeException("Unable to initialize index writer: ", e);
         }
     }
 

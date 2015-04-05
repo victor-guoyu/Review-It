@@ -49,7 +49,7 @@ public class App {
         // the user can retrieve from the server
         mainLog.info("Up since %s", Version.upSince);
         mainLog.info("Building initial data collection using training queries...");
-        searchEngine.retriveData(TrainingData.INSTANCE.getTraingQueries());
+        searchEngine.retrieveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
         mainLog.info("==================Ready to serve requests=================");
         server.start();

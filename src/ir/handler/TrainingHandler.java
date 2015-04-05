@@ -33,7 +33,7 @@ public class TrainingHandler implements RequestHandler{
         if (param != null) {
             String text = String.valueOf(param.get(SEARCH_TEXT));
             if (!Strings.isNullOrEmpty(text)) {
-                SearchEngine.getSearchEngine().retriveData(text);
+                SearchEngine.getSearchEngine().retrieveData(text);
                 return new JSONRPC2Response(Boolean.TRUE, request.getID());
             }
         }

@@ -48,14 +48,12 @@ public class SearchEngine {
         queryParser = new QueryParser(
                 ParsedComment.Fields.SEARCHABLE_TEXT.name(),
                 indexer.getAnalyzer());
-        try {
-            searcher = new IndexSearcher(DirectoryReader.open(indexDir));
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to open index path:", e);
-        }
     }
 
     public List<ParsedComment> searchComments(String userQuery) {
+        if (searcher == null) {
+            initializeSearcher();
+        }
         Query query = parseUserQuery(userQuery);
         TopScoreDocCollector docCollector = TopScoreDocCollector.create(
                 Configuration.getInstance().getResultSize(), true);
@@ -100,10 +98,10 @@ public class SearchEngine {
 
     /**
      * Crawlers will retrieve and index comments in the system
-     * @param List of product name queries
+     * @param queries - List of product name queries
      *        Lucene will index all the data being retrieved
      */
-    public void retriveData(List<String> queries) {
+    public void retrieveData(List<String> queries) {
         crawlers.stream()
         .forEach((crawler) -> {
             crawler.fetch(queries);
@@ -114,13 +112,21 @@ public class SearchEngine {
      *Crawlers will retrieve and index comments in the system
      * @param query - product name queries
      */
-    public void retriveData(String query) {
+    public void retrieveData(String query) {
         List<String> queryList = new ArrayList<>(1);
         queryList.add(query);
-        retriveData(queryList);
+        retrieveData(queryList);
     }
 
-    public List<ParsedComment> parseScoreDocsToList(ScoreDoc[] scoreDocs) {
+    private void initializeSearcher() {
+        try {
+            searcher = new IndexSearcher(DirectoryReader.open(indexDir));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to open index path:", e);
+        }
+    }
+
+    private List<ParsedComment> parseScoreDocsToList(ScoreDoc[] scoreDocs) {
         List<ScoreDoc> scoreDocsList = Arrays.asList(scoreDocs);
         Iterable<ParsedComment> parsedDocList = Iterables.transform(scoreDocsList,
                 new Function<ScoreDoc, ParsedComment>() {
