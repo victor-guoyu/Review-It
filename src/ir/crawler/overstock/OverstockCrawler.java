@@ -9,6 +9,7 @@ import ir.index.SearchEngine;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,11 +18,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class OverstockCrawler extends Crawler{
-    private Logger logger;
-    private static final String PRODUCT_LINK_SELECTOR   = "#result-products > li > div > a.reviewcountlink";
-    private static final String PRODUCT_TITLE_SELCTOR   = "head > title";
-    private static final String PRODUCT_COMMENT_SELCTOR = "[id*=reviewText] > p";
+import com.google.common.collect.Maps;
+import com.google.common.primitives.Ints;
+
+public class OverstockCrawler extends Crawler {
+    private Logger              logger;
+    private static final String PRODUCT_LINK_SELECTOR          = "#result-products > li > div > a.reviewcountlink";
+    private static final String PRODUCT_TITLE_SELCTOR          = "head > title";
+    private static final String PRODUCT_COMMENT_SELCTOR        = "[id*=reviewText] > p";
+    private static final String PRODUCT_COMMENTRATING_SELECTOR = "[id*= starImage]";
+    private static final String PRODUCT_COMMENTTEXT_PREFIX     = "reviewText";
+    private static final String PRODUCT_COMMENTRATING_PREFIX   = "starImage";
+    private static final int    MAX_STAR_RATING                = 5;
 
     @Override
     public void fetch(List<String> queries) {
@@ -49,7 +57,7 @@ public class OverstockCrawler extends Crawler{
         if (!productUrls.isEmpty()) {
             List<ParsedComment> parsedList = new ArrayList<>();
             // generate all the list
-            productUrls.stream().forEach((url) ->{
+            productUrls.stream().forEach((url) -> {
                 List<ParsedComment> comments = parse(url);
                 parsedList.addAll(comments);
             });
@@ -63,16 +71,25 @@ public class OverstockCrawler extends Crawler{
         List<ParsedComment> parsedList = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(productUrl).get();
+            // create mapping relationship
             Elements CommentElements = doc.select(PRODUCT_COMMENT_SELCTOR);
+            HashMap<Integer, String> commentTextMap = getCommentTextMap(
+                    CommentElements, PRODUCT_COMMENTTEXT_PREFIX);
+            Elements commentRatingElements = doc
+                    .select(PRODUCT_COMMENTRATING_SELECTOR);
+            HashMap<Integer, String> commentRatingMap = getCommentRatingMap(
+                    commentRatingElements, PRODUCT_COMMENTRATING_PREFIX);
+
             String ProductTitle = getProductTitle(doc);
 
-            CommentElements.stream().forEach((comment) -> {
-                parsedList.add(new ParsedComment
-                        .Builder(UUIDgenerator.get(), Source.OVERSTOCK)
+            commentTextMap.forEach((key, comment) -> {
+                String commentLabel = commentRatingMap.get(key);
+                parsedList.add(new ParsedComment.Builder(UUIDgenerator.get(),
+                        Source.OVERSTOCK)
                         .productName(ProductTitle)
-                        .comment(comment.html())
+                        .comment(comment)
                         .commentUrl(productUrl)
-                        .build());
+                        .commentLabel(commentLabel).build());
             });
         } catch (IOException e) {
             logger.error("Unable to retrieve product url: %s", productUrl);
@@ -82,6 +99,7 @@ public class OverstockCrawler extends Crawler{
 
     /**
      * Retrieve all the product urls listed under the result page
+     * 
      * @param inquiredURL
      * @return List of product urls
      */
@@ -104,5 +122,36 @@ public class OverstockCrawler extends Crawler{
         title = title.replace(" | Overstock.com", "");
         title = title.replace("Product Reviews: ", "");
         return title;
+    }
+
+    private HashMap<Integer, String> getCommentTextMap(Elements elems,
+            String prefix) {
+        HashMap<Integer, String> params = Maps.newHashMap();
+        elems.stream().forEach((elem) -> {
+            String elemId = elem.parent().id().replace(prefix, "");
+            Integer Id = Ints.tryParse(elemId);
+            params.put(Id, elem.html());
+        });
+        return params;
+    }
+
+    private HashMap<Integer, String> getCommentRatingMap(Elements elems,
+            String prefix) {
+        HashMap<Integer, String> params = Maps.newHashMap();
+        elems.stream().forEach((elem) -> {
+            String elemId = elem.id().replace(prefix, "");
+            Integer Id = Ints.tryParse(elemId);
+            String ratingImgUrl = elem.attr("src");
+            String commentLabel = setLabel(ratingImgUrl);
+            params.put(Id, commentLabel);
+        });
+        return params;
+    }
+
+    private String setLabel(String imgUrl) {
+        String rate = imgUrl.substring(imgUrl.lastIndexOf("s") + 1);
+        rate = rate.replace("_0.gif", "");
+        String result = setLabel(Ints.tryParse(rate), MAX_STAR_RATING);
+        return result;
     }
 }
