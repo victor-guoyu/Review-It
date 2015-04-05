@@ -24,6 +24,7 @@ public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
     private String        TWITTER_SECRET_KEY;
     private String        TWITTER_ACCESS_TOKEN;
     private String        TWITTER_ACCESS_TOKEN_SECRET;
+    private static final int NUM_RETRIEVAL = 20;
 
     public void init() {
         logger = LogManager.getLogger(YouTubeCrawler.class);
@@ -45,7 +46,7 @@ public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
         try {
             Query query = new Query(queryString);
             List<Status> hits = twitter.search(query).getTweets();
-            int size = hits.size() < 20 ? hits.size() : 20;
+            int size = hits.size() < NUM_RETRIEVAL ? hits.size() : NUM_RETRIEVAL;
             for (int i = 0; i < size; i++) {
                 Status status = hits.get(i);
                 Tweet tweet = new Tweet.Builder()
