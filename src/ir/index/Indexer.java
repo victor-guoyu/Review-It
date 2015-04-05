@@ -41,15 +41,15 @@ public class Indexer {
         newDoc.add(new TextField(ParsedComment.Fields.SEARCHABLE_TEXT.name(),
                 document.fullSearchableText(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.ID.name(),
-                document.id, Field.Store.YES));
+                document.getId(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.PRODUCT_NAME.name(),
-                document.productName, Field.Store.YES));
+                document.getProductName(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.COMMENT.name(),
-                document.comment, Field.Store.YES));
+                document.getComment(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.URL.name(),
-                document.commentUrl, Field.Store.YES));
+                document.getCommentUrl(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.SOURCE.name(),
-                document.source.name(), Field.Store.YES));
+                document.getSource().name(), Field.Store.YES));
         try {
             indexWriter.addDocument(newDoc);
             indexWriter.commit();

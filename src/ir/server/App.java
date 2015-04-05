@@ -47,7 +47,7 @@ public class App {
         Version.upSince = new Date();
         // Build the initial data set before
         // the user can retrieve from the server
-        mainLog.info("Up since %s", Version.upSince);
+        mainLog.info("Up since: " + Version.upSince.getTime());
         mainLog.info("Building initial data collection using training queries...");
         searchEngine.retrieveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();

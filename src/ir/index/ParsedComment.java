@@ -5,7 +5,7 @@ import com.google.common.base.Joiner;
 import ir.crawler.Source;
 
 public final class ParsedComment {
-    public static enum Fields {
+    public enum Fields {
         SEARCHABLE_TEXT,
         ID,
         COMMENT,
@@ -13,11 +13,51 @@ public final class ParsedComment {
         URL,
         SOURCE
     }
-    public final String id;
-    public final String comment;
-    public final String productName;
-    public final String commentUrl;
-    public final Source source;
+    private String id;
+    private String comment;
+    private String productName;
+    private String commentUrl;
+    private Source source;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getCommentUrl() {
+        return commentUrl;
+    }
+
+    public void setCommentUrl(String commentUrl) {
+        this.commentUrl = commentUrl;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
 
     public String fullSearchableText() {
         return Joiner.on(" ").join(productName, comment);
