@@ -47,8 +47,11 @@ public class App {
         Version.upSince = new Date();
         // Build the initial data set before
         // the user can retrieve from the server
+        mainLog.info("Up since %s", Version.upSince);
+        mainLog.info("Building initial data collection using training queries...");
         searchEngine.retriveData(TrainingData.INSTANCE.getTraingQueries());
         servletInit();
+        mainLog.info("==================Ready to serve requests=================");
         server.start();
         server.join();
     }
@@ -69,6 +72,7 @@ public class App {
      * including resource handler serving static files
      */
     private void servletInit() {
+        mainLog.info("Initializing servlets");
         HandlerCollection handlers = new HandlerCollection();
         Iterable<Handler> servletHandler = Iterables.transform(Configuration.getInstance().getServlets(),
                 new Function<ServletConfig, Handler>() {

@@ -63,7 +63,7 @@ public class JsonServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentLength(replyBytes.length);
         response.getOutputStream().write(replyBytes);
-        response.getOutputStream().close();
         response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
 }
