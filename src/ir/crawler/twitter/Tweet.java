@@ -1,16 +1,48 @@
 package ir.crawler.twitter;
 
 public class Tweet {
-    private final String screenName;
-    private final String profileUrl;
-    private final String createdTime;
-    private final String tweet;
+    private String screenName;
+    private String profileUrl;
+    private String createdTime;
+    private String tweet;
 
     private Tweet(Builder builder) {
         this.screenName = builder.screenName;
         this.profileUrl = builder.profileUrl;
         this.createdTime = builder.createdTime;
         this.tweet = builder.tweet;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public String getTweet() {
+        return tweet;
+    }
+
+    public void setTweet(String tweet) {
+        this.tweet = tweet;
     }
 
     @Override
