@@ -7,3 +7,5 @@ index
 *.iml
 *.eml
 .DS_Store
+
+public/bower_components
