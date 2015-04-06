@@ -50,6 +50,8 @@ public class Indexer {
                 document.getCommentUrl(), Field.Store.YES));
         newDoc.add(new StringField(ParsedComment.Fields.SOURCE.name(),
                 document.getSource().name(), Field.Store.YES));
+        newDoc.add(new StringField(ParsedComment.Fields.LABEL.name(),
+                document.getCommentLabel(), Field.Store.YES));
         try {
             indexWriter.addDocument(newDoc);
             indexWriter.commit();
