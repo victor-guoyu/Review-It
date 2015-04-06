@@ -14,4 +14,9 @@ angular.module('searchApp', ['ngRoute'])
                 templateUrl: 'app/template/404.tpl.html'
             })
             .otherwise({redirectTo:'404'});
+    }])
+    .run(['$rootScope', function($rootScope){
+        $rootScope.$on('$viewContentLoaded', function(){
+            $(document).foundation();
+        });
     }]);

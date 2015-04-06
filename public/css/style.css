@@ -22,6 +22,17 @@ h3 {
     height: auto;
 }*/
 
+ li.current a{
+    background: #E49B95 !important;
+ }
+
+.pink-button{
+    background-color: #E49B95 !important;
+}
+.pink-button:hover{
+    background-color: #CD8C86 !important;
+}
+
 .youtube-style {
     width: 100%;
     height: -moz-calc((100vh - 2.8125rem - 10px)/2);
@@ -76,14 +87,18 @@ h3 {
     padding-right: 6px;
 }*/
 
-.height-fill-screen {
-    /*height: -moz-calc(100% - 2.8125rem);
-height: -webkit-calc(100% - 2.8125rem);
-height: -o-calc(100% - 2.8125rem);
-    height: calc(100% - 2.8125rem);*/
+.comment-height {
+    height: -moz-calc(100% - 2.8125rem - 5px);
+height: -webkit-calc(100% - 2.8125rem - 5px);
+height: -o-calc(100% - 2.8125rem - 5px);
+    height: calc(100% - 2.8125rem - 5px);
 
+    /*height: 100%;
+*/    /*overflow: hidden;*/
+}
+
+.height-fill-screen {
     height: 100%;
-    /*overflow: hidden;*/
 }
 .bg {
     background-image: url(../img/background2.jpg);
@@ -94,12 +109,12 @@ height: -o-calc(100% - 2.8125rem);
     background-color: #EDF3F1;
     height: 100%
 }
-.opacityInputbox {
+.opacity-input-box {
     opacity: 0.75;
 }
-.searchbox {
-    position: inherit;
-    top: 30%;
+.search-box {
+    position: relative;
+    top: 45%;
     margin: 0;
     z-index: 9;
 }

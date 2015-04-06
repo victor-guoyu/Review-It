@@ -1,4 +1,4 @@
-<div class="fixed">
+<div>
     <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">
@@ -10,13 +10,13 @@
 
         <ul class="right show-for-medium-up heardersearchbox">
             <li class="has-form">
-                <form action="index_submit" method="get" accept-charset="utf-8">
+                <!-- <form action="index_submit" method="get" accept-charset="utf-8"> -->
                     <div class="row collapse eight-width ">
 
                         <div class="large-9 medium-11 columns">
                             <!-- <div class="small-12 columns"> -->
                             <!-- <i class="fi-magnifying-glass large"> -->
-                            <input type="text" class="opacityInputbox radius" placeholder="Macbook">
+                            <input type="text" class="opacity-input-box radius" placeholder="Macbook">
                             <!-- </i> -->
                             <!-- <span class="fi-magnifying-glass large white"></span> -->
                         </div>
@@ -26,7 +26,7 @@
                         </div>
 
                     </div>
-                </form>
+                <!-- </form> -->
             </li>
 
         </ul>
@@ -57,13 +57,16 @@
 <!-- body content -->
 
 <!-- left part of the screen -->
-<div class="medium-8 columns commentpart height-fill-screen">
+<div class="medium-8 columns commentpart comment-height">
     <!-- search option and result -->
     <div class="row padding-10">
         <div class="large-2 medium-3 small-only-text-center columns">
             <!-- dropdown option -->
-            <a data-dropdown="sortby" aria-controls="sortby" aria-expanded="false" class="button padding-10-20 white">Sort by:</a>
-            <ul id="sortby" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+            <a data-dropdown="sortby" aria-controls="sortby" 
+            aria-expanded="false" class="button padding-10-20 white 
+            pink-button">Sort by:</a>
+            <ul id="sortby" class="f-dropdown" data-dropdown-content 
+            aria-hidden="true" tabindex="-1">
                 <li><a href="#">popular</a>
                 </li>
                 <li><a href="#">most useful</a>
