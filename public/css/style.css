@@ -81,7 +81,7 @@ h3 {
 height: -webkit-calc(100% - 2.8125rem);
 height: -o-calc(100% - 2.8125rem);
     height: calc(100% - 2.8125rem);*/
-    
+
     height: 100%;
     /*overflow: hidden;*/
 }
@@ -101,7 +101,7 @@ height: -o-calc(100% - 2.8125rem);
     top: 30%;
     /*left: 8%;*/
     /*width: 1028px;*/
-    
+
     margin: 0;
     z-index: 9;
 }
@@ -210,7 +210,7 @@ height: -o-calc(100% - 2.8125rem);
 .size-72 {
     font-size: 72px;
 }
-/*404.html stylee*/
+/*404.tpl.html stylee*/
 
 .center-top-bar {
     float: none !important;
