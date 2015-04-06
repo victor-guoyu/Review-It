@@ -11,13 +11,16 @@ public final class ParsedComment {
         COMMENT,
         PRODUCT_NAME,
         URL,
-        SOURCE
+        SOURCE,
+        LABEL
     }
     private String id;
     private String comment;
     private String productName;
     private String commentUrl;
     private Source source;
+    private String commentLabel;
+
 
     public String getId() {
         return id;
@@ -33,6 +36,14 @@ public final class ParsedComment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getCommentLabel() {
+        return commentLabel;
+    }
+
+    public void setCommentLabel(String commentLabel) {
+        this.commentLabel = commentLabel;
     }
 
     public String getProductName() {
@@ -68,22 +79,24 @@ public final class ParsedComment {
         comment = builder.comment;
         productName = builder.productName;
         commentUrl = builder.commentUrl;
+        commentLabel = builder.commentLabel;
         source = builder.source;
     }
 
     @Override
     public String toString() {
         return String
-                .format("[id = %s, comment = %s, productName = %s, url = %s, source = %s]",
-                        id, comment, productName, commentUrl, source);
+                .format("[id = %s, comment = %s, productName = %s, url = %s, label = %s, source = %s]",
+                        id, comment, productName, commentUrl, commentLabel, source);
     }
 
     public static class Builder {
         private final String id;
         private final Source source;
-        private String       comment        = "";
-        private String       productName = "";
-        private String       commentUrl  = "";
+        private String       comment      = "";
+        private String       productName  = "";
+        private String       commentUrl   = "";
+        private String       commentLabel = "";
 
         public Builder(String id, Source source) {
             this.id = id;
@@ -102,6 +115,11 @@ public final class ParsedComment {
 
         public Builder commentUrl(String val) {
             commentUrl = val;
+            return this;
+        }
+
+        public Builder commentLabel(String val) {
+            commentLabel = val;
             return this;
         }
 
