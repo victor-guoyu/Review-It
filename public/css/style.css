@@ -92,6 +92,7 @@ height: -o-calc(100% - 2.8125rem);
     background-attachment: fixed;
     background-size: cover;
     background-color: #EDF3F1;
+    height: 100%
 }
 .opacityInputbox {
     opacity: 0.75;
@@ -99,9 +100,6 @@ height: -o-calc(100% - 2.8125rem);
 .searchbox {
     position: inherit;
     top: 30%;
-    /*left: 8%;*/
-    /*width: 1028px;*/
-
     margin: 0;
     z-index: 9;
 }
