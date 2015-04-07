@@ -1,19 +1,44 @@
-angular.module('searchApp', ['ngRoute'])
-    .config(['$routeProvider',function($routeProvider){
+angular.module('searchApp', ['ui.router'])
+    .config(['$stateProvider', '$urlRouterProvider' ,
+        function($stateProvider, $urlRouterProvider){
         'use strict';
-        $routeProvider
-            .when('/', {
+        $stateProvider
+            .state('default', {
+                url:'/',
                 templateUrl: 'app/template/index.tpl.html',
                 controller:'indexController'
             })
-            .when('/result', {
+            .state('result', {
+                url:'/result/:text',
                 templateUrl: 'app/template/result.tpl.html',
-                controller:'resultController'
+                controller:'resultController',
+                resolve: {
+                    reviewResource:'reviewResource',
+                    $stateParams: '$stateParams',
+                    comments: function (reviewResource, $stateParams) {
+                        return reviewResource.getComments($stateParams.text);
+                    },
+                    tweets: function (reviewResource, $stateParams) {
+                        return reviewResource.getTweets($stateParams.text);
+                    },
+                    video:function (reviewResource, $stateParams) {
+                        return reviewResource.getVideo($stateParams.text);
+                    },
+                    reviews:function(retrievedComments, retrievedTweets, retrievedVideo) {
+                        return {
+                            comments: retrievedComments,
+                            tweets: retrievedTweets,
+                            video: retrievedVideo
+                        };
+                    }
+
+                }
             })
-            .when('/404', {
+            .state('404', {
+                url: '/404',
                 templateUrl: 'app/template/404.tpl.html'
-            })
-            .otherwise({redirectTo:'404'});
+            });
+            $urlRouterProvider.otherwise('/');
     }])
     .run(['$rootScope', function($rootScope){
         $rootScope.$on('$viewContentLoaded', function(){

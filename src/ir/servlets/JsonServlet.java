@@ -24,7 +24,7 @@ public class JsonServlet extends HttpServlet {
         if (contentLength == null) {
             contentLength = 0;
         }
-        return contentType.equals("application/json") && lengthRange.contains(contentLength);
+        return contentType.contains("application/json") && lengthRange.contains(contentLength);
     }
 
     /**
