@@ -4,7 +4,7 @@
             <li class="name">
                 <h1><a href="" title="" class="headertitle white">Logo</a></h1>
             </li>
-            <li class="toggle-topbar"><a href="#/result"><span class="fi-magnifying-glass size-24 white"></span></a>
+            <li class="toggle-topbar"><a href="#"><span class="fi-magnifying-glass size-24 white"></span></a>
             </li>
         </ul>
 
@@ -12,10 +12,15 @@
             <li class="has-form">
                 <div class="row collapse eight-width ">
                     <div class="large-9 medium-11 columns">
-                        <input type="text" class="opacity-input-box radius" placeholder="Macbook">
+                        <input type="text"
+                               class="opacity-input-box radius"
+                               placeholder="Macbook"
+                                ng-model = "text">
                     </div>
                     <div class="large-3 medium-1 columns">
-                        <button type="submit" href="" class="radius nonstyle"><span class="fi-magnifying-glass size-21 white"></span>
+                        <button class="radius nonstyle">
+                            <span ng-click="newSearch()" class="fi-magnifying-glass size-21 white">
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -27,10 +32,13 @@
                 <li class="has-form">
                         <div class="row">
                             <div class="small-9  columns">
-                                <input type="text" class="opacity-input-box radius" placeholder="Macbook">
+                                <input type="text"
+                                       class="opacity-input-box radius"
+                                       placeholder="Macbook"
+                                       ng-model="text">
                             </div>
                             <div class="small-3 columns">
-                                <button type="submit" class="fi-magnifying-glass white radius pink-button"></button>
+                                <button ng-click="newSearch()" class="fi-magnifying-glass white radius pink-button"></button>
                             </div>
                         </div>
                 </li>
