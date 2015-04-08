@@ -6,42 +6,55 @@ angular.module('searchApp')
           searchVideos: "videoSearch"
         };
     }])
+    .filter('videoUrl', ['$sce', function ($sce) {
+        return function(videoId) {
+            return $sce.trustAsResourceUrl('http://www.youtube.com/embed/' + videoId);
+        };
+    }])
+    .filter('twitterSearchUrl', ['$sce', function ($sce) {
+        return function(search) {
+            return $sce.trustAsResourceUrl('https://twitter.com/search?q=' + search);
+        };
+    }])
+    .filter('twitterProfileUrl', ['$sce', function ($sce) {
+        return function(name) {
+            return $sce.trustAsResourceUrl('https://twitter.com/' + name);
+        };
+    }])
     .service('dataSource', ['$http', function($http){
       'use strict';
       var searchApi = '/search/';
-      var request = function(request, successCB, errorCB) {
-        $http
-          .post(searchApi, request)
-          .success(successCB)
-          .error(errorCB);
-      };
       this.getData = function(text, rpcMethod) {
           var param = {"jsonrpc": "2.0",
-                          "method": rpcMethod,
-                          "params": {"text": text},
-                          "id": 1
+                       "method": rpcMethod,
+                       "params": {"text": text},
+                       "id": 1
                       };
-          var success = function(data) {
-            return data.result;
-          };
-          var error = function(error){
-            console.log("Error occur while getting comments from server"+error);
-          };
-          request(param, success, error);
+          return $http.post(searchApi, param);
       };
     }])
     .factory('reviewResource', ['dataSource', 'RPC_METHOD',
      function(dataSource, RPC_METHOD){
     'use strict';
       var resource = {};
-      resource.getComments = function(text) {
-        return dataSource.getData(text, RPC_METHOD.searchComments);
-      };
-      resource.getTweets = function(text) {
-         return dataSource.getData(text, RPC_METHOD.searchTweets);
-      };
-      resource.getVideo = function(text) {
-        return dataSource.getData(text, RPC_METHOD.searchVideos);
-      };
+         resource.getReviews = function(text) {
+             var reviews = {};
+            dataSource.getData(text, RPC_METHOD.searchComments)
+                .then(function(serverReply) {
+                    reviews.comments = serverReply.data.result;
+                    return dataSource.getData(text, RPC_METHOD.searchTweets);
+                })
+                .then(function(serverReply) {
+                    reviews.tweets = serverReply.data.result;
+                    return dataSource.getData(text, RPC_METHOD.searchVideos);
+                })
+                .then(function(serverReply) {
+                    reviews.video = serverReply.data.result;
+                })
+                .catch(function(error) {
+                    console.log("Error occur while getting data from server: "+error);
+                });
+             return reviews;
+         };
       return resource;
     }]);

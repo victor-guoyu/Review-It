@@ -15,23 +15,9 @@ angular.module('searchApp', ['ui.router'])
                 resolve: {
                     reviewResource:'reviewResource',
                     $stateParams: '$stateParams',
-                    comments: function (reviewResource, $stateParams) {
-                        return reviewResource.getComments($stateParams.text);
-                    },
-                    tweets: function (reviewResource, $stateParams) {
-                        return reviewResource.getTweets($stateParams.text);
-                    },
-                    video:function (reviewResource, $stateParams) {
-                        return reviewResource.getVideo($stateParams.text);
-                    },
-                    reviews:function(retrievedComments, retrievedTweets, retrievedVideo) {
-                        return {
-                            comments: retrievedComments,
-                            tweets: retrievedTweets,
-                            video: retrievedVideo
-                        };
+                    reviews:function(reviewResource, $stateParams) {
+                        return reviewResource.getReviews($stateParams.text);
                     }
-
                 }
             })
             .state('404', {

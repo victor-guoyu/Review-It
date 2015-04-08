@@ -62,40 +62,15 @@
 
         </div>
         <div class="large-10 medium-9 columns text-right small-only-text-center">
-            <p>Search result for "Macbook"</p>
+            <p>Search result for "{{search}}"</p>
         </div>
     </div>
     <!-- comment part for search result -->
     <div class="row">
         <div class="large-12 column ">
-            <div class="commentcolor padding-10 margin-20-10">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <div class="row">
-                    <div class="small-6 medium-10 columns text-right like">
-                        <a href="" title=""><span class="fi-heart size-18 like"></span></a>
-                        <span>1</span>
-                    </div>
-                    <div class="small-6 medium-2 columns unlike">
-                        <a href="" title=""><span class="fi-heart size-18 unlike"></span></a>
-                        <span>2</span>
-                    </div>
-                </div>
-            </div>
-            <div class="commentcolor padding-10 margin-20-10">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <div class="row">
-                    <div class="small-6 medium-10 columns text-right like">
-                        <a href="" title=""><span class="fi-heart size-18 like"></span></a>
-                        <span>1</span>
-                    </div>
-                    <div class="small-6 medium-2 columns unlike">
-                        <a href="" title=""><span class="fi-heart size-18 unlike"></span></a>
-                        <span>2</span>
-                    </div>
-                </div>
-            </div>
-            <div class="commentcolor padding-10 margin-20-10">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div class="commentcolor padding-10 margin-20-10"
+                    ng-repeat="eachComment in reviews.comments">
+                <p>{{eachComment.comment}}</p>
                 <div class="row">
                     <div class="small-6 medium-10 columns text-right like">
                         <a href="" title=""><span class="fi-heart size-18 like"></span></a>
@@ -140,7 +115,11 @@
 <div class="medium-4 columns padding-none">
     <div class="row collapse">
         <div class="small-12 columns">
-            <iframe class="youtube-style" src="https://www.youtube.com/embed/39Q0QcH7CLI" frameborder="0" allowfullscreen></iframe>
+            <iframe class="youtube-style"
+                    ng-src="{{reviews.video.videoId | videoUrl}}"
+                    frameborder="0"
+                    allowfullscreen>
+            </iframe>
         </div>
     </div>
     <div class="row collapse">
@@ -150,121 +129,40 @@
                 <div class="t-border">
                     <div class="row t-header">
                         <div class="small-10 columns">
-                            <a class="t-title" title="" href="https://twitter.com/search?q=corji">Corji</a>
+                            <a class="t-title"
+                               ng-href="{{search | twitterSearchUrl}}">
+                                {{search}}
+                            </a>
                         </div>
                         <div class="small-2 columns text-right">
                             <a class="webicon twitter small margin-0" title="" href="https://twitter.com/" target="_blank"></a>
                         </div>
-
-
                     </div>
                     <!-- twitter-body  -->
-                    <div class="t-body padding-10">
-                        <div class="row collapse ">
-                            <div class="small-2 columns">
-                                <a title="" href="https://twitter.com/benson_corgi" target="_blank"><img class="t-avanta" src="https://pbs.twimg.com/profile_images/567933916280274944/qMSN9BdV_bigger.jpeg" alt="">
-                                </a>
-                            </div>
-                            <div class="small-10 columns">
-                                <div class="row">
-                                    <div class="small-8 columns">
-                                        <a class="t-nickname" title="" href="https://twitter.com/benson_corgi" target="_blank">@Benson_corgi</a>
-                                    </div>
-                                    <div class="small-4 columns ">
-                                        <p class="t-time"> May 12, 2013</p>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        <p class="t-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="t-body padding-10" ng-repeat="eachTweet in reviews.tweets">
                         <div class="row collapse">
                             <div class="small-2 columns">
-                                <a title="" href="https://twitter.com/benson_corgi" target="_blank"><img class="t-avanta" src="https://pbs.twimg.com/profile_images/567933916280274944/qMSN9BdV_bigger.jpeg" alt="">
+                                <a ng-href="{{eachTweet.screenName | twitterProfileUrl}}"
+                                   target="_blank">
+                                    <img class="t-avanta" ng-src="{{eachTweet.profileUrl}}">
                                 </a>
                             </div>
                             <div class="small-10 columns">
                                 <div class="row">
                                     <div class="small-8 columns">
-                                        <a class="t-nickname" title="" href="https://twitter.com/benson_corgi" target="_blank">@Benson_corgi</a>
+                                        <a class="t-nickname"
+                                           ng-href="{{eachTweet.screenName | twitterProfileUrl}}"
+                                           target="_blank">
+                                            @{{eachTweet.screenName}}
+                                        </a>
                                     </div>
                                     <div class="small-4 columns ">
-                                        <p class="t-time"> May 12, 2013</p>
+                                        <p class="t-time">{{eachTweet.createdTime}}</p>
                                     </div>
                                 </div>
                                 <div class="row ">
                                     <div class="small-12 columns">
-                                        <p class="t-content">I haven't quite gotten the hang of this FaceTime thing. #corgi #corgination pic.twitter.com/MeY3zT4fW7</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row collapse">
-                            <div class="small-2 columns">
-                                <a title="" href="https://twitter.com/benson_corgi" target="_blank"><img class="t-avanta" src="https://pbs.twimg.com/profile_images/567933916280274944/qMSN9BdV_bigger.jpeg" alt="">
-                                </a>
-                            </div>
-                            <div class="small-10 columns">
-                                <div class="row">
-                                    <div class="small-8 columns">
-                                        <a class="t-nickname" title="" href="https://twitter.com/benson_corgi" target="_blank">@Benson_corgi</a>
-                                    </div>
-                                    <div class="small-4 columns ">
-                                        <p class="t-time"> May 12, 2013</p>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        <p class="t-content">I haven't quite gotten the hang of this FaceTime thing. #corgi #corgination pic.twitter.com/MeY3zT4fW7</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row collapse">
-                            <div class="small-2 columns">
-                                <a title="" href="https://twitter.com/benson_corgi" target="_blank"><img class="t-avanta" src="https://pbs.twimg.com/profile_images/567933916280274944/qMSN9BdV_bigger.jpeg" alt="">
-                                </a>
-                            </div>
-                            <div class="small-10 columns">
-                                <div class="row">
-                                    <div class="small-8 columns">
-                                        <a class="t-nickname" title="" href="https://twitter.com/benson_corgi" target="_blank">@Benson_corgi</a>
-                                    </div>
-                                    <div class="small-4 columns ">
-                                        <p class="t-time"> May 12, 2013</p>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        <p class="t-content">I haven't quite gotten the hang of this FaceTime thing. #corgi #corgination pic.twitter.com/MeY3zT4fW7</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row collapse">
-                            <div class="small-2 columns">
-                                <a title="" href="https://twitter.com/benson_corgi" target="_blank"><img class="t-avanta" src="https://pbs.twimg.com/profile_images/567933916280274944/qMSN9BdV_bigger.jpeg" alt="">
-                                </a>
-                            </div>
-                            <div class="small-10 columns">
-                                <div class="row">
-                                    <div class="small-8 columns">
-                                        <a class="t-nickname" title="" href="https://twitter.com/benson_corgi" target="_blank">@Benson_corgi</a>
-                                    </div>
-                                    <div class="small-4 columns ">
-                                        <p class="t-time"> May 12, 2013</p>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        <p class="t-content">I haven't quite gotten the hang of this FaceTime thing. #corgi #corgination pic.twitter.com/MeY3zT4fW7</p>
+                                        <p class="t-content">{{eachTweet.tweet}}</p>
                                     </div>
                                 </div>
                             </div>
