@@ -6,7 +6,7 @@ angular.module('searchApp', ['ui.router'])
             .state('default', {
                 url:'/',
                 templateUrl: 'app/template/index.tpl.html',
-                controller:'indexController'
+                controller:'indexController',
             })
             .state('result', {
                 url:'/result/:text',

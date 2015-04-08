@@ -1,13 +1,16 @@
 angular.module('searchApp')
-    .controller('indexController',['$scope', '$state', function($scope, $state){
-        $scope.search = function() {
-            $state.go('result',{text: $scope.text});
+    .controller('indexController',['$scope', '$state', '$rootScope',
+        function($scope, $state, $rootScope){
+            $rootScope.title = "Rate My Product";
+            $scope.search = function() {
+                $state.go('result',{text: $scope.text});
         };
     }])
-    .controller('resultController',['$scope', '$stateParams', 'reviews', '$state',
-        function($scope, $stateParams, reviews, $state){
-            $scope.reviews = reviews;
+    .controller('resultController',['$scope', '$stateParams', 'reviews', '$state', '$rootScope',
+        function($scope, $stateParams, reviews, $state, $rootScope){
+            $rootScope.title = 'Reviews for '+ $stateParams.text;
             $scope.search = $stateParams.text;
+            $scope.reviews = reviews;
             $scope.newSearch = function() {
                 $state.go('result',{text: $scope.text});
             };
