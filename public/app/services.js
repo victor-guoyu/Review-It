@@ -21,6 +21,20 @@ angular.module('searchApp')
             return $sce.trustAsResourceUrl('https://twitter.com/' + name);
         };
     }])
+    .filter('filterComment',[function() {
+        return function(comments, label) {
+            var filteredComments = [];
+            if (label === 'none') {
+                return comments;
+            }
+            angular.forEach(comments, function(comment) {
+                if(comment.label === label) {
+                    filteredComments.push(comment);
+                }
+            });
+            return filteredComments;
+        };
+    }])
     .service('dataSource', ['$http', function($http){
       'use strict';
       var searchApi = '/search/';

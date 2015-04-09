@@ -48,12 +48,10 @@
             <a data-dropdown="sortby" aria-controls="sortby" aria-expanded="false" class="button padding-10-20 white
             pink-button">Sort by:</a>
             <ul id="sortby" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-                <li><a href="#">popular</a>
-                </li>
-                <li><a href="#">most useful</a>
-                </li>
-                <li><a href="#">relative</a>
-                </li>
+                <li ng-click="label = 'none'"><a href="#">none</a></li>
+                <li ng-click="label = 'positive'"><a href="#">popular</a></li>
+                <li ng-click="label = 'netural'"><a href="#">most useful</a></li>
+                <li ng-click="label = 'negative'"><a href="">relative</a></li>
             </ul>
         </div>
         <div class="large-10 medium-9 columns text-right small-only-text-center">
@@ -63,7 +61,8 @@
     <!-- comment part for search result -->
     <div class="row">
         <div class="large-12 columns ">
-            <div class="commentcolor padding-10 margin-20-10" ng-repeat="eachComment in reviews.comments">
+            <div class="commentcolor padding-10 margin-20-10"
+                 ng-repeat="eachComment in reviews.comments | filterComment: label">
                 <div class="row">
                     <div class="small-12 columns">
                         <a href="http://www.overstock.com/" class="titleicon overstock small" ng-if="eachComment.source == 'OVERSTOCK'">
