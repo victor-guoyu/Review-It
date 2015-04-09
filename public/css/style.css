@@ -2,18 +2,32 @@
     font-family: "Braggadocio Regular";
     src: url("font/ufonts.com_braggadocio.ttf");
 }
-html, body {
+
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(http://fonts.gstatic.com/s/ubuntu/v7/0ihfXUL2emPh0ROJezvraCZ2oysoEQEeKwjgmXLRnTc.ttf) format('truetype');
+}
+
+html,
+body {
     height: 100%;
 }
-body, h3 {
+
+body,
+h3 {
     font-family: "Cantarell", sans-serif !important;
 }
+
 div {
     display: block;
 }
+
 form {
     text-align: center;
 }
+
 h3 {
     color: #0F4E63;
 }
@@ -22,14 +36,15 @@ h3 {
     height: auto;
 }*/
 
- li.current a{
+li.current a {
     background: #E49B95 !important;
- }
+}
 
-.pink-button{
+.pink-button {
     background-color: #E49B95 !important;
 }
-.pink-button:hover{
+
+.pink-button:hover {
     background-color: #CD8C86 !important;
 }
 
@@ -50,32 +65,47 @@ h3 {
     height: calc((100vh - 2.8125rem - 10px)/2 - 40px);
     overflow: scroll;
 }
+
 .t-avanta {
     border-radius: 5px;
 }
-.t-nickname, .t-nickname:hover, .t-nickname:active, .t-nickname:visited, .t-nickname:focus {
+
+.t-nickname,
+.t-nickname:hover,
+.t-nickname:active,
+.t-nickname:visited,
+.t-nickname:focus {
     font-size: 13px;
     color: #707070;
     margin-bottom: 0px;
 }
+
 .t-time {
     font-size: 12px;
     color: #707070;
     margin-bottom: 0px;
 }
+
 .t-content {
     font: normal normal normal 12px/16px "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
 }
-.t-title, .t-title:hover, .t-title:active, .t-title:visited, .t-title:focus {
+
+.t-title,
+.t-title:hover,
+.t-title:active,
+.t-title:visited,
+.t-title:focus {
     color: #292f33;
     font: normal normal normal 12px/16px "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
     font-size: 18px;
     font-weight: bold;
 }
+
 .t-border {
     border: 1px solid #e8e8e8;
     border-radius: 10px;
 }
+
 .t-header {
     border-bottom: 1px solid #e8e8e8;
     padding: 5px;
@@ -89,17 +119,18 @@ h3 {
 
 .comment-height {
     height: -moz-calc(100% - 2.8125rem - 5px);
-height: -webkit-calc(100% - 2.8125rem - 5px);
-height: -o-calc(100% - 2.8125rem - 5px);
+    height: -webkit-calc(100% - 2.8125rem - 5px);
+    height: -o-calc(100% - 2.8125rem - 5px);
     height: calc(100% - 2.8125rem - 5px);
-
     /*height: 100%;
-*/    /*overflow: hidden;*/
+*/
+    /*overflow: hidden;*/
 }
 
 .height-fill-screen {
     height: 100%;
 }
+
 .bg {
     background-image: url(../img/background2.jpg);
     background-repeat: no-repeat;
@@ -109,136 +140,195 @@ height: -o-calc(100% - 2.8125rem - 5px);
     background-color: #EDF3F1;
     height: 100%
 }
+
 .opacity-input-box {
     opacity: 0.75;
 }
+
 .search-box {
     position: relative;
     top: 45%;
     margin: 0;
     z-index: 9;
 }
+
 .white {
     color: #EDF3F1;
 }
+
 .white:hover {
     color: #FFFFFf;
 }
+
 .footer {
     position: fixed;
     bottom: 0px;
 }
+
 .headertitle {
     font-family: "Braggadocio Regular";
     font-size: x-large;
 }
-.top-bar, .top-bar.expanded .title-area {
+
+.top-bar,
+.top-bar.expanded .title-area {
     background: #81b9cb;
 }
+
 .commentpart {
     background: #f6f9f8;
     overflow-x: hidden;
     overflow-y: scroll;
 }
-.transparent, .transparent:hover, .transparent:visited, .transparent:active {
+
+.transparent,
+.transparent:hover,
+.transparent:visited,
+.transparent:active {
     background: 0;
 }
+
 .full-width {
     width: 100% !important;
 }
+
 .text-right {
     text-align: right;
 }
+
 .eight-width {
     width: 80%;
 }
+
 .heardersearchbox {
     width: 30%;
     padding-right: 10px;
 }
-.nonstyle, .nonstyle:hover, .nonstyle:active, .nonstyle:focus {
+
+.nonstyle,
+.nonstyle:hover,
+.nonstyle:active,
+.nonstyle:focus {
     background: none;
     border-color: transparent;
     padding: 2px 6px !important;
 }
-.top-bar-section ul li, .gray {
+
+.top-bar-section ul li,
+.gray {
     background: #BBBFC0;
 }
+
 .padding-none {
     padding: 0px;
 }
+
 .padding-5 {
     padding: 5px;
 }
+
 .padding-10 {
     padding: 10px;
 }
+
 .margin-20-10 {
     margin: 20px 10px;
 }
+
 .margin-0 {
     margin: 0px;
 }
+
 .padding-10-20 {
     padding: 10px 20px;
 }
-.sourceimg{
+
+.titleicon{
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    display: inline-block;  
     width: 18px;
     height: 18px;
 }
+
+.titleicon.overstock.small {
+    background-image: url("source-icons/overstock.png");
+}
+
+.titleicon.amazon.small {
+    background-image: url("source-icons/amazon.svg");
+}
+
 .commentcolor {
     border-radius: 10px;
 }
+
 .commentcolor:nth-child(odd) {
     background: #dddada;
 }
+
 .commentcolor:nth-child(even) {
     background: #faf3f0;
 }
-.commenttitle{
+
+.commenttitle {
     /*color: #5E6060;*/
+    
     color: black;
     font-weight: bolder;
     font-family: 'Ubuntu', sans-serif;
 }
-.commenttitle:hover{
+
+.commenttitle:hover {
     color: #6E7070;
     font-weight: bolder;
     font-family: 'Ubuntu', sans-serif;
 }
+
 .like {
     color: #cc9087;
 }
+
 .unlike {
     color: #6c6c6c;
 }
+
 .size-12 {
     font-size: 12px;
 }
+
 .size-14 {
     font-size: 14px;
 }
+
 .size-16 {
     font-size: 16px;
 }
+
 .size-18 {
     font-size: 18px;
 }
+
 .size-21 {
     font-size: 21px;
 }
+
 .size-24 {
     font-size: 24px;
 }
+
 .size-36 {
     font-size: 36px;
 }
+
 .size-48 {
     font-size: 48px;
 }
+
 .size-60 {
     font-size: 60px;
 }
+
 .size-72 {
     font-size: 72px;
 }
@@ -247,18 +337,23 @@ height: -o-calc(100% - 2.8125rem - 5px);
 .center-top-bar {
     float: none !important;
 }
-.warning-font{
+
+.warning-font {
     color: #81b9cb;
 }
-.font-bold{
+
+.font-bold {
     font-weight: bold;
 }
-.error-code{
+
+.error-code {
     color: #8B8C8D;
 }
-.height-20vh{
+
+.height-20vh {
     height: 20vh;
 }
-.height-40{
+
+.height-40 {
     height: 40px;
 }
