@@ -9,6 +9,7 @@ angular.module('searchApp')
     .controller('resultController',['$scope', '$stateParams', 'reviews', '$state', '$rootScope',
         function($scope, $stateParams, reviews, $state, $rootScope){
             $rootScope.title = 'Reviews for '+ $stateParams.text;
+            $scope.label = 'none';
             $scope.search = $stateParams.text;
             $scope.reviews = reviews;
             $scope.newSearch = function() {

@@ -146,6 +146,7 @@ public class SearchEngine {
                                 .productName(hitDoc.get(ParsedComment.Fields.PRODUCT_NAME.name()))
                                 .comment(hitDoc.get(ParsedComment.Fields.COMMENT.name()))
                                 .commentUrl(hitDoc.get(ParsedComment.Fields.URL.name()))
+                                .commentLabel(hitDoc.get(ParsedComment.Fields.LABEL.name()))
                                 .build();
                 }
             });

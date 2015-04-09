@@ -74,7 +74,7 @@ public class YouTubeCrawler extends RealTimeCrawler<Video> {
             search.setVideoEmbeddable("true");
             return search;
         } catch (IOException e) {
-            logger.error("Unable to setup searcher for query %s", query);
+            logger.error("Unable to setup searcher for query "+query);
             throw new RuntimeException();
         }
     }

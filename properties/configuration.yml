@@ -6,7 +6,7 @@ publicDir: public
 indexDir: index
 stopWord: data/stopWords.txt
 stopWordSize : 779
-resultSize: 1000
+resultSize: 100
 
 # Default page
 wlecomePages:

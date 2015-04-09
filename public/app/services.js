@@ -28,7 +28,7 @@ angular.module('searchApp')
                 return comments;
             }
             angular.forEach(comments, function(comment) {
-                if(comment.label === label) {
+                if(comment.commentLabel === label) {
                     filteredComments.push(comment);
                 }
             });
