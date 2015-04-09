@@ -66,12 +66,10 @@
             <div class="commentcolor padding-10 margin-20-10" ng-repeat="eachComment in reviews.comments">
                 <div class="row">
                     <div class="small-12 columns">
-                        <a href="http://www.overstock.com/" ng-if="eachComment.source == 'OVERSTOCK'">
-                            <img src="css/source-icons/overstock.png" class="sourceimg" alt="OVERSTOCK">
+                        <a href="http://www.overstock.com/" class="titleicon overstock small" ng-if="eachComment.source == 'OVERSTOCK'">
                         </a>
-                        <a href="http://www.amazon.com/" ng-if="eachComment.source == 'AMAZON'">
-                            <img src="css/source-icons/amazon.svg" class="sourceimg" alt="AMAZON">
-                        </a>
+                        <a href="http://www.amazon.com/" class="titleicon amazon small" ng-if="eachComment.source == 'AMAZON'">
+                         </a>
                         <a ng-href="{{eachComment.commentUrl}}" title="" class="commenttitle" target="_blank">
                         {{eachComment.productName}}
                     </a>
