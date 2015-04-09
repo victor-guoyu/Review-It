@@ -7,20 +7,19 @@
     <File name="file-log" fileName="logs/server.log" append="false">
       <PatternLayout pattern="%m%n"/>
       	<Filters>
-            <!-- Now deny warn, error and fatal messages -->
-            <ThresholdFilter level="warn"  onMatch="DENY"   onMismatch="NEUTRAL"/>
-            <ThresholdFilter level="error" onMatch="DENY"   onMismatch="NEUTRAL"/>
-            <ThresholdFilter level="fatal" onMatch="DENY"   onMismatch="NEUTRAL"/>
-			<ThresholdFilter level="info"  onMatch="DENY"   onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="warn"  onMatch="ACCEPT"   onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="error" onMatch="ACCEPT"   onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="fatal" onMatch="ACCEPT"   onMismatch="NEUTRAL"/>
+			<ThresholdFilter level="info"  onMatch="ACCEPT"   onMismatch="NEUTRAL"/>
             <!-- This filter accepts info, warn, error, fatal and denies debug/trace -->
-            <ThresholdFilter level="trace"  onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="trace"  onMatch="DENY" onMismatch="DENY"/>
         </Filters>
     </File>
   </Appenders>
   <Loggers>
     <logger name="ir" level="ALL">
-        <AppenderRef ref="file-log" level="TRACE"/>
-        <AppenderRef ref="console-log" level="INFO"/>
+        <AppenderRef ref="file-log"/>
+        <AppenderRef ref="console-log"/>
     </logger>
      <Root level="error">
      	<AppenderRef ref="console-log" level="ERROR"/>
