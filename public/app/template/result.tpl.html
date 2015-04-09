@@ -7,15 +7,11 @@
             <li class="toggle-topbar"><a href="#"><span class="fi-magnifying-glass size-24 white"></span></a>
             </li>
         </ul>
-
         <ul class="right show-for-medium-up heardersearchbox">
             <li class="has-form">
                 <div class="row collapse eight-width ">
                     <div class="large-9 medium-11 columns">
-                        <input type="text"
-                               class="opacity-input-box radius"
-                               placeholder="Macbook"
-                                ng-model = "text">
+                        <input type="text" class="opacity-input-box radius" placeholder="Macbook" ng-model="text">
                     </div>
                     <div class="large-3 medium-1 columns">
                         <button class="radius nonstyle">
@@ -25,41 +21,33 @@
                     </div>
                 </div>
             </li>
-
         </ul>
         <section class="top-bar-section">
             <ul class="right hide-for-medium-up">
                 <li class="has-form">
-                        <div class="row">
-                            <div class="small-9  columns">
-                                <input type="text"
-                                       class="opacity-input-box radius"
-                                       placeholder="Macbook"
-                                       ng-model="text">
-                            </div>
-                            <div class="small-3 columns">
-                                <button ng-click="newSearch()" class="fi-magnifying-glass white radius pink-button"></button>
-                            </div>
+                    <div class="row">
+                        <div class="small-9 columns">
+                            <input type="text" class="opacity-input-box radius" placeholder="Macbook" ng-model="text">
                         </div>
+                        <div class="small-3 columns">
+                            <button ng-click="newSearch()" class="fi-magnifying-glass white radius pink-button"></button>
+                        </div>
+                    </div>
                 </li>
-
             </ul>
         </section>
     </nav>
 </div>
 <!-- body content -->
-
 <!-- left part of the screen -->
 <div class="medium-8 columns commentpart comment-height">
     <!-- search option and result -->
     <div class="row padding-10">
         <div class="large-2 medium-3 small-only-text-center columns">
             <!-- dropdown option -->
-            <a data-dropdown="sortby" aria-controls="sortby"
-            aria-expanded="false" class="button padding-10-20 white
+            <a data-dropdown="sortby" aria-controls="sortby" aria-expanded="false" class="button padding-10-20 white
             pink-button">Sort by:</a>
-            <ul id="sortby" class="f-dropdown" data-dropdown-content
-            aria-hidden="true" tabindex="-1">
+            <ul id="sortby" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
                 <li><a href="#">popular</a>
                 </li>
                 <li><a href="#">most useful</a>
@@ -67,7 +55,6 @@
                 <li><a href="#">relative</a>
                 </li>
             </ul>
-
         </div>
         <div class="large-10 medium-9 columns text-right small-only-text-center">
             <p>Search result for "{{search}}"</p>
@@ -75,10 +62,26 @@
     </div>
     <!-- comment part for search result -->
     <div class="row">
-        <div class="large-12 column ">
-            <div class="commentcolor padding-10 margin-20-10"
-                    ng-repeat="eachComment in reviews.comments">
-                <p>{{eachComment.comment}}</p>
+        <div class="large-12 columns ">
+            <div class="commentcolor padding-10 margin-20-10" ng-repeat="eachComment in reviews.comments">
+                <div class="row">
+                    <div class="small-12 columns">
+                        <a href="http://www.overstock.com/" ng-if="eachComment.source == 'OVERSTOCK'">
+                            <img src="css/source-icons/overstock.png" class="sourceimg" alt="OVERSTOCK">
+                        </a>
+                        <a href="http://www.amazon.com/" ng-if="eachComment.source == 'AMAZON'">
+                            <img src="css/source-icons/amazon.svg" class="sourceimg" alt="AMAZON">
+                        </a>
+                        <a ng-href="{{eachComment.commentUrl}}" title="" class="commenttitle" target="_blank">
+                        {{eachComment.productName}}
+                    </a>
+                    </div>
+                </div>
+                <div class="row padding-10">
+                    <div class="small-12 columns">
+                        <p class="margin-0">{{eachComment.comment}}</p>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="small-6 medium-10 columns text-right like">
                         <a href="" title=""><span class="fi-heart size-18 like"></span></a>
@@ -123,10 +126,7 @@
 <div class="medium-4 columns padding-none">
     <div class="row collapse">
         <div class="small-12 columns">
-            <iframe class="youtube-style"
-                    ng-src="{{reviews.video.videoId | videoUrl}}"
-                    frameborder="0"
-                    allowfullscreen>
+            <iframe class="youtube-style" ng-src="{{reviews.video.videoId | videoUrl}}" frameborder="0" allowfullscreen>
             </iframe>
         </div>
     </div>
@@ -137,8 +137,7 @@
                 <div class="t-border">
                     <div class="row t-header">
                         <div class="small-10 columns">
-                            <a class="t-title"
-                               ng-href="{{search | twitterSearchUrl}}">
+                            <a class="t-title" ng-href="{{search | twitterSearchUrl}}">
                                 {{search}}
                             </a>
                         </div>
@@ -147,25 +146,24 @@
                         </div>
                     </div>
                     <!-- twitter-body  -->
-                    <div class="t-body padding-10" ng-repeat="eachTweet in reviews.tweets">
-                        <div class="row collapse">
+                    <div class="t-body padding-10">
+                        <div class="row collapse padding-5" ng-repeat="eachTweet in reviews.tweets">
                             <div class="small-2 columns">
-                                <a ng-href="{{eachTweet.screenName | twitterProfileUrl}}"
-                                   target="_blank">
+                                <a ng-href="{{eachTweet.screenName | twitterProfileUrl}}" target="_blank">
                                     <img class="t-avanta" ng-src="{{eachTweet.profileUrl}}">
                                 </a>
                             </div>
                             <div class="small-10 columns">
                                 <div class="row">
                                     <div class="small-8 columns">
-                                        <a class="t-nickname"
-                                           ng-href="{{eachTweet.screenName | twitterProfileUrl}}"
-                                           target="_blank">
+                                        <a class="t-nickname" ng-href="{{eachTweet.screenName | twitterProfileUrl}}" target="_blank">
                                             @{{eachTweet.screenName}}
                                         </a>
                                     </div>
                                     <div class="small-4 columns ">
-                                        <p class="t-time">{{eachTweet.createdTime}}</p>
+                                        <time datetime="{{eachTweet.createdTime}}" class="t-time">
+                                            {{eachTweet.createdTime | date:'yyyy-MM-dd'}}
+                                        </time>
                                     </div>
                                 </div>
                                 <div class="row ">

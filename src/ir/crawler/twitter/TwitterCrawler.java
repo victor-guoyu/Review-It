@@ -10,20 +10,22 @@ import ir.config.Configuration;
 import ir.crawler.RealTimeCrawler;
 import ir.crawler.youtube.YouTubeCrawler;
 
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
-    private Logger        logger;
-    private Configuration config;
-    private Twitter       twitter;
-    private String        TWITTER_CONSUMER_KEY;
-    private String        TWITTER_SECRET_KEY;
-    private String        TWITTER_ACCESS_TOKEN;
-    private String        TWITTER_ACCESS_TOKEN_SECRET;
+public class TwitterCrawler extends RealTimeCrawler<List<Tweet>> {
+    private Logger           logger;
+    private Configuration    config;
+    private Twitter          twitter;
+    private String           TWITTER_CONSUMER_KEY;
+    private String           TWITTER_SECRET_KEY;
+    private String           TWITTER_ACCESS_TOKEN;
+    private String           TWITTER_ACCESS_TOKEN_SECRET;
+    private SimpleDateFormat sm;
     private static final int NUM_RETRIEVAL = 20;
 
     public void init() {
@@ -34,6 +36,7 @@ public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
         TWITTER_ACCESS_TOKEN = config.getTwitterAccessToken();
         TWITTER_ACCESS_TOKEN_SECRET = config.getTwitterAccessTokenSecert();
         twitter = createTwitterInstance();
+        sm = new SimpleDateFormat("MMM d");
         this.setInitialized(true);
     }
 
@@ -41,20 +44,20 @@ public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
     public List<Tweet> fetch(String queryString) {
         List<Tweet> tweets = new LinkedList<>();
         if (!isInitialized()) {
-             init();
+            init();
         }
         try {
             Query query = new Query(queryString);
             List<Status> hits = twitter.search(query).getTweets();
-            int size = hits.size() < NUM_RETRIEVAL ? hits.size() : NUM_RETRIEVAL;
+            int size = hits.size() < NUM_RETRIEVAL ? hits.size()
+                    : NUM_RETRIEVAL;
             for (int i = 0; i < size; i++) {
                 Status status = hits.get(i);
                 Tweet tweet = new Tweet.Builder()
-                    .screenName(status.getUser().getScreenName())
-                    .profileUrl(status.getUser().getBiggerProfileImageURL())
-                    .createdTime(status.getCreatedAt().toString())
-                    .tweet(status.getText())
-                    .build();
+                        .screenName(status.getUser().getScreenName())
+                        .profileUrl(status.getUser().getBiggerProfileImageURL())
+                        .createdTime(sm.format(status.getCreatedAt()))
+                        .tweet(status.getText()).build();
                 tweets.add(tweet);
             }
         } catch (TwitterException e) {
@@ -67,9 +70,9 @@ public class TwitterCrawler extends RealTimeCrawler<List<Tweet>>{
     private Twitter createTwitterInstance() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY)
-        .setOAuthConsumerSecret(TWITTER_SECRET_KEY)
-        .setOAuthAccessToken(TWITTER_ACCESS_TOKEN)
-        .setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);
+                .setOAuthConsumerSecret(TWITTER_SECRET_KEY)
+                .setOAuthAccessToken(TWITTER_ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);
         TwitterFactory twitterfactory = new TwitterFactory(builder.build());
         return twitterfactory.getInstance();
     }
