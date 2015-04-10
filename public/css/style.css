@@ -4,6 +4,12 @@
 }
 
 @font-face {
+    font-family: "Magneto Bold";
+    src: url("font/MAGNETOB.TTF");
+}
+
+
+@font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 700;
@@ -166,7 +172,7 @@ li.current a {
 }
 
 .headertitle {
-    font-family: "Braggadocio Regular";
+    font-family: "Magneto Bold";
     font-size: x-large;
 }
 
