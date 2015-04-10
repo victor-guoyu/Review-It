@@ -35,6 +35,20 @@ angular.module('searchApp')
             return filteredComments;
         };
     }])
+    .filter('unique', [function() {
+        return function(comments) {
+            var output = [],
+                commentCache = [];
+            angular.forEach(comments, function(eachComment) {
+                var comment = eachComment.comment;
+                if(commentCache.indexOf(comment) === -1) {
+                    commentCache.push(comment);
+                    output.push(eachComment);
+                }
+            });
+            return output;
+        };
+    }])
     .service('dataSource', ['$http', function($http){
       'use strict';
       var searchApi = '/search/';
