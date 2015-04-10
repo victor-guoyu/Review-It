@@ -1,0 +1,23 @@
+ <!--the result pagination -->
+<div class="row" ng-if="1 < pages.length">
+    <div class="small-12 columns">
+        <div class="pagination-centered">
+            <ul class="pagination">
+                <li ng-if="boundaryLinks"
+                    ng-class="{ unavailable : pagination.current == 1 }"
+                    class="arrow">
+                    <a href="" ng-click="setCurrent(1)">&laquo;</a>
+                </li>
+                <li ng-repeat="pageNumber in pages track by $index"
+                    ng-class="{ active : pagination.current == pageNumber, unavailable : pageNumber == '...' }">
+                    <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                </li>
+                <li ng-if="boundaryLinks"
+                    ng-class="{ disabled : pagination.current == pagination.last }"
+                    class="arrow">
+                    <a href="" ng-click="setCurrent(pagination.last)>&laquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

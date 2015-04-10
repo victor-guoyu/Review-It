@@ -62,16 +62,22 @@
     <div class="row">
         <div class="large-12 columns ">
             <div class="commentcolor padding-10 margin-20-10"
-                 ng-repeat="eachComment in reviews.comments | filterComment: label">
+                 dir-paginate="eachComment in reviews.comments | itemsPerPage: 10 | filterComment: label">
                 <div class="row">
                     <div class="small-12 columns">
-                        <a href="http://www.overstock.com/" class="titleicon overstock small" ng-if="eachComment.source == 'OVERSTOCK'">
+                        <a ng-if="eachComment.source == 'OVERSTOCK'"
+                           href="http://www.overstock.com/"
+                           class="titleicon overstock small">
                         </a>
-                        <a href="http://www.amazon.com/" class="titleicon amazon small" ng-if="eachComment.source == 'AMAZON'">
+                        <a ng-if="eachComment.source == 'AMAZON'"
+                           href="http://www.amazon.com/"
+                           class="titleicon amazon small">
+                        </a>
+                        <a ng-href="{{eachComment.commentUrl}}"
+                           class="commenttitle"
+                           target="_blank">
+                            {{eachComment.productName}}
                          </a>
-                        <a ng-href="{{eachComment.commentUrl}}" title="" class="commenttitle" target="_blank">
-                        {{eachComment.productName}}
-                    </a>
                     </div>
                 </div>
                 <div class="row padding-10">
@@ -92,33 +98,9 @@
             </div>
         </div>
     </div>
-    <!-- the result pagination -->
-    <div class="row">
-        <div class="small-12 columns">
-            <div class="pagination-centered">
-                <ul class="pagination">
-                    <li class="arrow unavailable"><a href="">&laquo;</a>
-                    </li>
-                    <li class="current"><a href="">1</a>
-                    </li>
-                    <li><a href="">2</a>
-                    </li>
-                    <li><a href="">3</a>
-                    </li>
-                    <li><a href="">4</a>
-                    </li>
-                    <li class="unavailable"><a href="">&hellip;</a>
-                    </li>
-                    <li><a href="">12</a>
-                    </li>
-                    <li><a href="">13</a>
-                    </li>
-                    <li class="arrow"><a href="">&raquo;</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <dir-pagination-controls boundary-links="true"
+                             template-url="app/template/pagination.tpl.html">
+    </dir-pagination-controls>
 </div>
 <div class="medium-4 columns padding-none">
     <div class="row collapse">

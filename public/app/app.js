@@ -1,4 +1,4 @@
-angular.module('searchApp', ['ui.router'])
+angular.module('searchApp', ['ui.router', 'angularUtils.directives.dirPagination'])
     .config(['$stateProvider', '$urlRouterProvider' ,
         function($stateProvider, $urlRouterProvider){
         'use strict';

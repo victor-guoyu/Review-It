@@ -20,6 +20,7 @@
     "foundation": "~5.5.1",
     "bower": "*",
     "install": "~1.0.4",
-    "angular-ui-router": "~0.2.13"
+    "angular-ui-router": "~0.2.13",
+    "angular-utils-pagination": "~0.6.1"
   }
 }
