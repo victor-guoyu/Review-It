@@ -3,6 +3,7 @@ package ir.index;
 import com.google.common.base.Joiner;
 
 import ir.crawler.Source;
+import ir.utils.HashCodeUtil;
 
 public final class ParsedComment {
     public enum Fields {
@@ -88,6 +89,27 @@ public final class ParsedComment {
         return String
                 .format("[id = %s, comment = %s, productName = %s, url = %s, label = %s, source = %s]",
                         id, comment, productName, commentUrl, commentLabel, source);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (!(obj instanceof ParsedComment))
+            return false;
+        ParsedComment comment = (ParsedComment) obj;
+        return this.hashCode() == comment.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = HashCodeUtil.SEED;
+        hashCode = HashCodeUtil.hash(hashCode, comment);
+        hashCode = HashCodeUtil.hash(hashCode, productName);
+        hashCode = HashCodeUtil.hash(hashCode, commentUrl);
+        hashCode = HashCodeUtil.hash(hashCode, commentLabel);
+        hashCode = HashCodeUtil.hash(hashCode, source.name());
+        return hashCode;
     }
 
     public static class Builder {

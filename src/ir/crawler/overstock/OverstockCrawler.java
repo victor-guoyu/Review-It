@@ -92,14 +92,14 @@ public class OverstockCrawler extends Crawler {
                         .commentLabel(commentLabel).build());
             });
         } catch (IOException e) {
-            logger.error("Unable to retrieve product url: %s", productUrl);
+            logger.error("Unable to retrieve product url: "+ productUrl);
         }
         return parsedList;
     }
 
     /**
      * Retrieve all the product urls listed under the result page
-     * 
+     *
      * @param inquiredURL
      * @return List of product urls
      */

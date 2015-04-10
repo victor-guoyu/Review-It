@@ -29,8 +29,9 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 
 public class SearchEngine {
     private Indexer                         indexer;
@@ -68,7 +69,7 @@ public class SearchEngine {
 
     /**
      * Retrieve top rated video from YouTube
-     * @param query
+     * @param query - user query
      * @return Video
      */
     public Video getTopRatedVideo(String query) {
@@ -77,10 +78,9 @@ public class SearchEngine {
 
     /**
      * Return top 20 related tweets from twitter
-     * @param query
+     * @param query - user query
      * @return List<Tweet>
      */
-    @SuppressWarnings("unchecked")
     public List<Tweet> getTopTweets(String query) {
         return (List<Tweet>) (List<?>) realTimeCrawlers.get(
                 Source.TWITTER.name()).fetch(query);
@@ -88,12 +88,10 @@ public class SearchEngine {
 
     /**
      * Index list of parsedComment
-     * @param newDocs
+     * @param newDocs - documents need to add to into the system
      */
     public void indexDocuments(List<ParsedComment> newDocs) {
-        newDocs.stream().forEach((doc) -> {
-            indexer.indexParsedDocument(doc);
-        });
+        newDocs.stream().forEach(indexer::indexParsedDocument);
     }
 
     /**
@@ -103,9 +101,7 @@ public class SearchEngine {
      */
     public void retrieveData(List<String> queries) {
         crawlers.stream()
-        .forEach((crawler) -> {
-            crawler.fetch(queries);
-        });
+        .forEach((crawler) -> crawler.fetch(queries));
     }
 
     /**
@@ -150,7 +146,7 @@ public class SearchEngine {
                                 .build();
                 }
             });
-        return ImmutableList.copyOf(parsedDocList);
+        return ImmutableSet.copyOf(parsedDocList).asList();
     }
 
     /**
