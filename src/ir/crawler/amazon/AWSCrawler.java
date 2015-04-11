@@ -28,8 +28,6 @@ import static ir.crawler.amazon.AWSRequestFileds.*;
  *
  * @author Zhiting Lin Amazon customer review crawler
  *
- *         http://docs.aws.amazon.com/AWSECommerceService/latest/DG/ItemSearch.
- *         html
  */
 
 public class AWSCrawler extends Crawler {
@@ -73,9 +71,10 @@ public class AWSCrawler extends Crawler {
             List<ParsedComment> pageComments = retrievePageComments(link);
             comments.addAll(pageComments);
         }
-        if (!comments.isEmpty()) {
-            SearchEngine.getSearchEngine().indexDocuments(comments);
-        }
+        System.out.println(comments);
+//        if (!comments.isEmpty()) {
+//            SearchEngine.getSearchEngine().indexDocuments(comments);
+//        }
     }
 
     /**
@@ -114,7 +113,6 @@ public class AWSCrawler extends Crawler {
                     if (itemLink.getElementsByTag(DESCRIPTION_TAG)
                             .get(FIRST_ELEMENT).text()
                             .contains("Customer Reviews")) {
-
                         pageComment.addAll(RetriveParsedCustomerReview(
                                 title,
                                 itemLink.getElementsByTag(URL_TAG)
@@ -200,8 +198,8 @@ public class AWSCrawler extends Crawler {
                 for (int i = 1; i <= num; i++) {
                     String pagingURL = "http://www.amazon.com"
                             + CommonPagingURL.replace("?ie=UTF8",
-                                    "/ref=cm_cr_pr_btm_link_" + i).replace(
-                                    "pageNumber=" + num, "pageNumber=" + i);
+                                    "/ref=cm_cr_pr_btm_link_" + i + "?ie=UTF8").replace(
+                                    "pageNumber=" + num, "pageNumber=" + i);                
                     List<List<String>> commentlist = retriveReviews(pagingURL);
                     for (List<String> commentNode : commentlist) {
                         Comments.add(new ParsedComment.Builder(UUIDgenerator
@@ -218,7 +216,15 @@ public class AWSCrawler extends Crawler {
             String msg = String.format("Unable to parse link %s", ReviewURL);
             logger.error(msg);
         }
-
         return Comments;
     }
+    
+    public static void main(String[] args){
+        AWSCrawler aw = new AWSCrawler();
+        aw.init();
+        List<String> queries = Lists.newLinkedList();
+        queries.add("macbook");
+        aw.fetch(queries);
+    }
+    
 }
