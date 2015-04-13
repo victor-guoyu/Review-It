@@ -71,10 +71,9 @@ public class AWSCrawler extends Crawler {
             List<ParsedComment> pageComments = retrievePageComments(link);
             comments.addAll(pageComments);
         }
-        System.out.println(comments);
-//        if (!comments.isEmpty()) {
-//            SearchEngine.getSearchEngine().indexDocuments(comments);
-//        }
+        if (!comments.isEmpty()) {
+            SearchEngine.getSearchEngine().indexDocuments(comments);
+        }
     }
 
     /**
@@ -218,13 +217,4 @@ public class AWSCrawler extends Crawler {
         }
         return Comments;
     }
-    
-    public static void main(String[] args){
-        AWSCrawler aw = new AWSCrawler();
-        aw.init();
-        List<String> queries = Lists.newLinkedList();
-        queries.add("macbook");
-        aw.fetch(queries);
-    }
-    
 }
