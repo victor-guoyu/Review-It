@@ -49,15 +49,23 @@
             pink-button">Sort by: </a>
             <ul id="sortby" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
                 <li ng-click="label = 'none'"><a href="#">none</a></li>
-                <li ng-click="label = 'positive'"><a href="#">popular</a></li>
-                <li ng-click="label = 'netural'"><a href="#">most useful</a></li>
-                <li ng-click="label = 'negative'"><a href="">relative</a></li>
+                <li ng-click="label = 'positive'"><a href="#">positive</a></li>
+                <li ng-click="label = 'netural'"><a href="#">netural</a></li>
+                <li ng-click="label = 'negative'"><a href="#">negative</a></li>
             </ul>
         </div>
         <div class="large-10 medium-9 columns text-right small-only-text-center">
             <p>Search result for "{{search}}"</p>
         </div>
     </div>
+    <!-- pie chart -->
+    <div class="row">
+        <div class="small-12 columns">
+            <div data-ac-chart="'pie'" data-ac-data="data" data-ac-config="config" class="chart">
+            </div>
+        </div>
+    </div>
+
     <!-- comment part for search result -->
     <div class="row">
         <div class="large-12 columns ">

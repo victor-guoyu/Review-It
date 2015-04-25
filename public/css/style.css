@@ -53,7 +53,9 @@ li.current a {
 .pink-button:hover {
     background-color: #CD8C86 !important;
 }
-
+.chart{
+    height: 200px;
+}
 .youtube-style {
     width: 100%;
     height: -moz-calc((100vh - 2.8125rem - 10px)/2);
