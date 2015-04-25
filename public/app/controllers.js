@@ -6,8 +6,21 @@ angular.module('searchApp')
                 $state.go('result',{text: $scope.text});
         };
     }])
-    .controller('resultController',['$scope', '$stateParams', 'reviews', '$state', '$rootScope',
-        function($scope, $stateParams, reviews, $state, $rootScope, filterFilter){
+    .controller('resultController',['$scope', '$stateParams', '$state', '$rootScope', 'reviews',
+        function($scope, $stateParams, $state, $rootScope, reviews){
+            var getLabelCount = function(comments, label) {
+                var count = 0;
+                angular.forEach(comments, function(comment) {
+                    if(comment.commentLabel === label) {
+                        count++;
+                    }
+                });
+                return count;
+                },
+                numPos = getLabelCount(reviews.comments, 'positive'),
+                numNet = getLabelCount(reviews.comments, 'netural'),
+                numNeg = getLabelCount(reviews.comments, 'negative');
+            
             $rootScope.title = 'Reviews for '+ $stateParams.text;
             $scope.label = 'none';
             $scope.search = $stateParams.text;
@@ -24,13 +37,13 @@ angular.module('searchApp')
                 series:['Positive','Negative','Netural'],
                 data:[{
                     x: "Positive",
-                    y: [100]
+                    y: [numPos]
                 },{
                     x: "Negative",
-                    y: [50]
+                    y: [numNeg]
                 },{
                     x: "Netural",
-                    y: [30]
+                    y: [numNet]
                 }]
             };
             $scope.newSearch = function() {

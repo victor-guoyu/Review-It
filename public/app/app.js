@@ -13,11 +13,12 @@ angular.module('searchApp', ['ui.router', 'angularUtils.directives.dirPagination
                 templateUrl: 'app/template/result.tpl.html',
                 controller:'resultController',
                 resolve: {
-                    reviewResource:'reviewResource',
-                    $stateParams: '$stateParams',
-                    reviews:function(reviewResource, $stateParams) {
-                        return reviewResource.getReviews($stateParams.text);
-                    }
+                    reviews: [
+                        'reviewResource',
+                        '$stateParams',
+                        function(reviewResource, $stateParams) {
+                         return reviewResource.getReviews($stateParams.text);
+                    }]
                 }
             })
             .state('404', {

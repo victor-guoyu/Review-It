@@ -67,7 +67,7 @@ angular.module('searchApp')
       var resource = {};
          resource.getReviews = function(text) {
              var reviews = {};
-            dataSource.getData(text, RPC_METHOD.searchComments)
+            return dataSource.getData(text, RPC_METHOD.searchComments)
                 .then(function(serverReply) {
                     reviews.comments = serverReply.data.result;
                     return dataSource.getData(text, RPC_METHOD.searchTweets);
@@ -79,10 +79,12 @@ angular.module('searchApp')
                 .then(function(serverReply) {
                     reviews.video = serverReply.data.result;
                 })
+                .then(function() {
+                    return reviews;
+                })
                 .catch(function(error) {
                     console.log("Error occur while getting data from server: "+error);
                 });
-             return reviews;
          };
       return resource;
     }]);
