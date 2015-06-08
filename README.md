@@ -1,4 +1,5 @@
-# CSI 4900 Honours Project - Review It [![Build Status](https://magnum.travis-ci.com/HelloBugs/HonoursProject.svg?token=JyjYuZgyDwc1WodXtDjw&branch=master)](https://magnum.travis-ci.com/HelloBugs/HonoursProject)
+# CSI 4900 Honours Project - Review It 
+[![Build Status](https://travis-ci.org/HelloBugs/Review-It.svg?branch=master)](https://travis-ci.org/HelloBugs/Review-It)
 ## Project details
 ### User Interface
 ![UI](images/UI.png)
